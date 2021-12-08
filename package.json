@@ -1,0 +1,18 @@
+{
+  "name": "zCloak-Server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:zCloak-Network/zCloak-Server.git",
+  "author": "lin <alpers@163.com>",
+  "license": "MIT",
+  "dependencies": {
+    "koa": "^2.13.4",
+    "koa-bodyparser": "^4.3.0",
+    "koa-router": "^10.1.1",
+    "koa-static": "^5.0.0",
+    "koa2-cors": "^2.0.6",
+    "mongodb": "^4.2.1",
+    "mongoose": "^6.0.15",
+    "web3": "^1.6.1"
+  }
+}
