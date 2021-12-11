@@ -1,7 +1,6 @@
 // const dbCommon = require("../Schema/common");
 const { ProofModel } = require("../Schema/init");
 
-
 /**
  *
  * Get a proof owned by an address
@@ -21,6 +20,22 @@ async function getUserProof(dataOwner) {
             localField: "proofCid",
             foreignField: "proofCid",
             as: "status",
+          },
+        },
+        {
+          $lookup: {
+            from: "programs",
+            localField: "programHash",
+            foreignField: "programHash",
+            as: "programDetails",
+          },
+        },
+        {
+          $lookup: {
+            from: "ctypes",
+            localField: "ctypeHash",
+            foreignField: "ctypeHash",
+            as: "claimAlias",
           },
         },
       ],
@@ -56,6 +71,22 @@ async function getOneProof(dataOwner, proofCid) {
             as: "status",
           },
         },
+        {
+          $lookup: {
+            from: "programs",
+            localField: "programHash",
+            foreignField: "programHash",
+            as: "programDetails",
+          },
+        },
+        {
+          $lookup: {
+            from: "ctypes",
+            localField: "ctypeHash",
+            foreignField: "ctypeHash",
+            as: "claimAlias",
+          },
+        },
       ],
       (err, result) => {
         if (err) {
@@ -81,6 +112,14 @@ async function ifHaveProofs(dataOwner, programHash) {
             localField: "proofCid",
             foreignField: "proofCid",
             as: "status",
+          },
+        },
+        {
+          $lookup: {
+            from: "programs",
+            localField: "programHash",
+            foreignField: "programHash",
+            as: "programDetails",
           },
         },
         { $limit: 1 },

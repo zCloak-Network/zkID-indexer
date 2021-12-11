@@ -26,7 +26,7 @@ const ProofsSchema = new Schema({
     type: String,
     required: true,
   },
-  rootHash: {
+  ctypeHash: {
     type: String,
     required: true,
   },
@@ -36,6 +36,10 @@ const ProofsSchema = new Schema({
   },
   date: {
     type: Date,
+    required: true,
+  },
+  expectResult: {
+    type: Boolean,
     required: true,
   },
 });
@@ -109,6 +113,10 @@ const TransferSchema = new Schema({
   },
   programHash: {
     type: String,
+    required: true,
+  },
+  tranferTime: {
+    type: Date,
     required: true,
   },
 });

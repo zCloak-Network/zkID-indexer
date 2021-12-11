@@ -14,6 +14,8 @@ router.post("/proofs", async (ctx) => {
     ctx.body = message(200, "proofs", proofs);
   } catch (error) {
     // TODO add log4j
+    console.log(error);
+
     ctx.body = message(500, "Database error");
   }
 });
@@ -22,9 +24,12 @@ router.get("/proofs/one", async (ctx) => {
   const { dataOwner, programHash } = ctx.query;
   try {
     const proof = await proofsController.ifHaveProofs(dataOwner, programHash);
+    console.log(proof);
     ctx.body = message(200, "proof", proof);
   } catch (error) {
     // TODO add log4j
+    console.log(error);
+
     ctx.body = message(200, "Database error");
   }
 });
@@ -35,6 +40,8 @@ router.get("/tokens", async (ctx) => {
     ctx.body = message(200, "tokens", tokens);
   } catch (error) {
     // TODO add log4j
+    console.log(error);
+
     ctx.body = message(200, "Database error");
   }
 });
@@ -46,6 +53,7 @@ router.get("/tokens/rules", async (ctx) => {
     ctx.body = message(200, "token rules", tokenRules);
   } catch (error) {
     // TODO add log4j
+    console.log(error);
     ctx.body = message(200, "Database error");
   }
 });
@@ -56,6 +64,8 @@ router.get("/programs", async (ctx) => {
     ctx.body = message(200, "programs", programs);
   } catch (error) {
     // TODO add log4j
+    console.log(error);
+
     ctx.body = message(200, "Database error");
   }
 });
@@ -63,10 +73,13 @@ router.get("/programs", async (ctx) => {
 router.get("/transfer/record", async (ctx) => {
   const { dataOwner } = ctx.query;
   try {
-    const transferRecord = await transferController(dataOwner);
+    const transferRecord = await transferController.getUserTransferRecord(
+      dataOwner
+    );
     ctx.body = message(200, "transfer record", transferRecord);
   } catch (error) {
     // TODO add log4j
+    console.log(error);
     ctx.body = message(200, "Database error");
   }
 });

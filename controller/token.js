@@ -6,11 +6,11 @@ async function getAllTokens() {
 
 async function getTokenRule(tokenAddress) {
   const tokenRule = await Token.getTokenRule(tokenAddress);
-  
-  if (result.length > 0) {
-    tokenRule[0].programDetails = tokenRule[0].programDetails[0];
-  }
 
+  if (tokenRule.length) {
+    tokenRule[0].programDetails = tokenRule[0].programDetails[0];
+    return tokenRule[0];
+  }
   return tokenRule;
 }
 
