@@ -16,9 +16,9 @@ async function getUserProof(dataOwner) {
         },
         {
           $lookup: {
-            from: "worker_results",
-            localField: "proofCid",
-            foreignField: "proofCid",
+            from: "verifies",
+            localField: "dataOwner",
+            foreignField: "dataOwner",
             as: "status",
           },
         },
@@ -33,8 +33,8 @@ async function getUserProof(dataOwner) {
         {
           $lookup: {
             from: "ctypes",
-            localField: "ctypeHash",
-            foreignField: "ctypeHash",
+            localField: "cTypeHash",
+            foreignField: "cTypeHash",
             as: "claimAlias",
           },
         },
@@ -56,18 +56,18 @@ async function getUserProof(dataOwner) {
  * @param {*} proofCid
  * @return {Array}
  */
-async function getOneProof(dataOwner, proofCid) {
+async function getOneProof(dataOwner, programHash) {
   return new Promise((resolve, reject) => {
     ProofModel.aggregate(
       [
         {
-          $match: { proofCid: proofCid, dataOwner: dataOwner },
+          $match: { programHash: programHash, dataOwner: dataOwner },
         },
         {
           $lookup: {
-            from: "worker_results",
-            localField: "proofCid",
-            foreignField: "proofCid",
+            from: "verifies",
+            localField: "dataOwner",
+            foreignField: "dataOwner",
             as: "status",
           },
         },
@@ -82,8 +82,8 @@ async function getOneProof(dataOwner, proofCid) {
         {
           $lookup: {
             from: "ctypes",
-            localField: "ctypeHash",
-            foreignField: "ctypeHash",
+            localField: "cTypeHash",
+            foreignField: "cTypeHash",
             as: "claimAlias",
           },
         },
@@ -108,9 +108,9 @@ async function ifHaveProofs(dataOwner, programHash) {
         },
         {
           $lookup: {
-            from: "worker_results",
-            localField: "proofCid",
-            foreignField: "proofCid",
+            from: "verifies",
+            localField: "programHash",
+            foreignField: "programHash",
             as: "status",
           },
         },

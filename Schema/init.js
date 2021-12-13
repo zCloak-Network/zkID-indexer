@@ -7,6 +7,8 @@ const {
   TransferSchema,
   ProgramSchema,
   TokenProgramRulesSchema,
+  BlockRecordSchema,
+  VerifyRecordSchema
 } = require("./zCloakSchemas");
 
 mongoose
@@ -21,6 +23,8 @@ module.exports = {
   TokenModel: mongoose.model("token", TokenSchema),
   TransferModel: mongoose.model("transfer", TransferSchema),
   ProgramModel: mongoose.model("program", ProgramSchema),
+  BlockModel: mongoose.model("block_record", BlockRecordSchema),
+  VerifyRecordModel: mongoose.model("verify", VerifyRecordSchema),
   TokenProgramRulesModel: mongoose.model(
     "token_program_rules",
     TokenProgramRulesSchema

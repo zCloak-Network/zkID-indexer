@@ -8,9 +8,12 @@ const message = require("./message");
 const router = new Router();
 
 router.post("/proofs", async (ctx) => {
-  const { dataOwner, proofCid } = ctx.request.body;
+  const { dataOwner, programHash } = ctx.request.body;
   try {
-    const proofs = await proofsController.getOneProof(dataOwner, proofCid);
+    const proofs = await proofsController.getOneProof(
+      (dataOwner + "").toLowerCase(),
+      programHash
+    );
     ctx.body = message(200, "proofs", proofs);
   } catch (error) {
     // TODO add log4j
@@ -23,13 +26,15 @@ router.post("/proofs", async (ctx) => {
 router.get("/proofs/one", async (ctx) => {
   const { dataOwner, programHash } = ctx.query;
   try {
-    const proof = await proofsController.ifHaveProofs(dataOwner, programHash);
+    const proof = await proofsController.ifHaveProofs(
+      (dataOwner + "").toLowerCase(),
+      (programHash + "").toLowerCase()
+    );
     console.log(proof);
     ctx.body = message(200, "proof", proof);
   } catch (error) {
     // TODO add log4j
     console.log(error);
-
     ctx.body = message(200, "Database error");
   }
 });
@@ -49,7 +54,9 @@ router.get("/tokens", async (ctx) => {
 router.get("/tokens/rules", async (ctx) => {
   const { tokenAddress } = ctx.query;
   try {
-    const tokenRules = await tokenController.getTokenRule(tokenAddress);
+    const tokenRules = await tokenController.getTokenRule(
+      (tokenAddress + "").toLowerCase()
+    );
     ctx.body = message(200, "token rules", tokenRules);
   } catch (error) {
     // TODO add log4j
@@ -74,7 +81,7 @@ router.get("/transfer/record", async (ctx) => {
   const { dataOwner } = ctx.query;
   try {
     const transferRecord = await transferController.getUserTransferRecord(
-      dataOwner
+      (dataOwner + "").toLowerCase()
     );
     ctx.body = message(200, "transfer record", transferRecord);
   } catch (error) {

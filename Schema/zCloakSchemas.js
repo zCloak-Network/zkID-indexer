@@ -10,7 +10,7 @@ const ProofsSchema = new Schema({
     type: String,
     required: true,
   },
-  ctypeHash: {
+  cTypeHash: {
     type: String,
     required: true,
   },
@@ -26,7 +26,7 @@ const ProofsSchema = new Schema({
     type: String,
     required: true,
   },
-  ctypeHash: {
+  cTypeHash: {
     type: String,
     required: true,
   },
@@ -42,12 +42,24 @@ const ProofsSchema = new Schema({
     type: Boolean,
     required: true,
   },
+  rootHash: {
+    type: String,
+    required: true,
+  },
 });
 
 const WorkerResultSchema = new Schema({
   dataOwner: {
     type: String,
     required: true,
+  },
+  cTypeHash: {
+    type: String,
+    required: false,
+  },
+  programHash: {
+    type: String,
+    required: false,
   },
   verifyResult: {
     type: Boolean,
@@ -65,10 +77,6 @@ const WorkerResultSchema = new Schema({
     type: Boolean,
     required: true,
   },
-  proofCid: {
-    type: String,
-    required: true,
-  },
 });
 
 const ProgramSchema = new Schema({
@@ -80,7 +88,7 @@ const ProgramSchema = new Schema({
     type: String,
     required: true,
   },
-  ctypeHash: {
+  cTypeHash: {
     type: String,
     required: true,
   },
@@ -122,7 +130,7 @@ const TransferSchema = new Schema({
 });
 
 const CtypeSchema = new Schema({
-  ctypeHash: {
+  cTypeHash: {
     type: String,
     required: true,
   },
@@ -147,18 +155,57 @@ const TokenSchema = new Schema({
     required: true,
   },
 });
+// event AddRule(address token, address checker, bytes32 cType, bytes32 programHash, bool expectedResult);
 
 const TokenProgramRulesSchema = new Schema({
   tokenAddress: {
     type: String,
     required: true,
   },
-  ctypeHash: {
+  checker: {
+    type: String,
+    required: false,
+  },
+  expectedResult: {
+    type: Boolean,
+    required: false,
+  },
+  cTypeHash: {
     type: String,
     required: true,
   },
   programHash: {
     type: String,
+    required: true,
+  },
+});
+
+const BlockRecord = new Schema({
+  blockNumber: {
+    type: String,
+    required: true,
+  },
+  blockTime: {
+    type: Date,
+    required: true,
+  },
+});
+
+const VerifyRecord = new Schema({
+  dataOwner: {
+    type: String,
+    required: true,
+  },
+  cTypeHash: {
+    type: String,
+    required: true,
+  },
+  programHash: {
+    type: String,
+    required: true,
+  },
+  isPassed: {
+    type: Boolean,
     required: true,
   },
 });
@@ -171,4 +218,6 @@ module.exports = {
   CtypeSchema: CtypeSchema,
   TransferSchema: TransferSchema,
   TokenProgramRulesSchema: TokenProgramRulesSchema,
+  BlockRecordSchema: BlockRecord,
+  VerifyRecordSchema: VerifyRecord,
 };
