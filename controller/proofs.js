@@ -10,9 +10,15 @@ async function getOneProof(dataOwner, programHash) {
     const proofArr = [];
     for (let i = 0; i < programHash.length; i++) {
       let proofItem = await Proofs.getOneProof(dataOwner, programHash[i]);
-      console.log(proofItem[0].status);
-      if (proofItem[0].status.length) {
+      console.log(proofItem);
+      if (
+        proofItem.length &&
+        proofItem[0].status &&
+        proofItem[0].status.length
+      ) {
         const sstatus = proofItem[0].status[0];
+        proofItem[0].claimAlias = "zCloak Primary Access";
+
         if (sstatus.isPassed) {
           proofItem[0].status = "Verified True";
         } else {
@@ -24,9 +30,9 @@ async function getOneProof(dataOwner, programHash) {
       if (proofItem[0].programDetails) {
         proofItem[0].programDetails = proofItem[0].programDetails[0];
       }
-      if (proofItem[0].claimAlias[0]) {
-        proofItem[0].claimAlias = "zCloak Primary Access";
-      }
+      // if (proofItem[0].claimAlias[0]) {
+      //   proofItem[0].claimAlias = "zCloak Primary Access";
+      // }
       proofArr.push(proofItem[0]);
     }
     return proofArr;

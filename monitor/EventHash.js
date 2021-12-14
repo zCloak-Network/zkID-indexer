@@ -97,7 +97,7 @@ async function saveData(transactionsDetails) {
               break;
             case "token":
               break;
-            case "transfer":
+            case "transfers":
               // event RTransfer(address token, address from, address to, uint256 amount, bytes32 programHash);
               const trans = new TransferModel({
                 tokenAddress: logData.token.toLowerCase(),

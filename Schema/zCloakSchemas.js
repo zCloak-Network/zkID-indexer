@@ -135,7 +135,7 @@ const CtypeSchema = new Schema({
     required: true,
   },
 
-  ctypeAlias: {
+  cTypeAlias: {
     type: String,
     required: true,
   },
