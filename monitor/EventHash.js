@@ -151,6 +151,13 @@ async function queryTransaction(c) {
 async function scan() {
   let blocks = [];
   const dataRecord = await BlockModel.find();
+  if (dataRecord.length === 0) {
+    const nb = new BlockModel({
+      blockNumber: "1348339",
+      blockTime: new Date(),
+    });
+    await nb.save();
+  }
   const lastNumber = dataRecord[dataRecord.length - 1].blockNumber;
   const lastNumberBN = new BN(lastNumber);
   console.log("lastt");
