@@ -12,7 +12,7 @@ const {
 } = require("./zCloakSchemas");
 
 mongoose
-  .connect("mongodb://127.0.0.1:2888/zCloak", { useNewUrlParser: true })
+  .connect("mongodb://127.0.0.1:2889/zCloak", { useNewUrlParser: true })
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => console.log(err));
 

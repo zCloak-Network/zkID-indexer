@@ -4,6 +4,8 @@ async function getAllProofs() {
   return await Proofs.getAllProofs();
 }
 
+
+
 async function getOneProof(dataOwner, programHash) {
   if (Array.isArray(programHash) && programHash.length) {
     console.log("one");
@@ -11,29 +13,27 @@ async function getOneProof(dataOwner, programHash) {
     for (let i = 0; i < programHash.length; i++) {
       let proofItem = await Proofs.getOneProof(dataOwner, programHash[i]);
       console.log(proofItem);
-      if (
-        proofItem.length &&
-        proofItem[0].status &&
-        proofItem[0].status.length
-      ) {
-        const sstatus = proofItem[0].status[0];
-        proofItem[0].claimAlias = "zCloak Primary Access";
 
-        if (sstatus.isPassed) {
-          proofItem[0].status = "Verified True";
+      if (proofItem.length) {
+        if (proofItem[0].status && proofItem[0].status.length) {
+          const sstatus = proofItem[0].status[0];
+          proofItem[0].claimAlias = proofItem[0].claimAlias[0].cTypeAlias;
+          if (sstatus.isPassed) {
+            proofItem[0].status = "Verified True";
+          } else {
+            proofItem[0].status = "Verified False";
+          }
         } else {
-          proofItem[0].status = "Verified False";
+          proofItem[0].status = "Verifing";
         }
-      } else {
-        proofItem[0].status = "Verifing";
+        if (proofItem[0].programDetails) {
+          proofItem[0].programDetails = proofItem[0].programDetails[0];
+        }
+        console.log(proofItem[0].claimAlias);
+
+        proofItem[0].claimAlias = proofItem[0].claimAlias[0].cTypeAlias;
+        proofArr.push(proofItem[0]);
       }
-      if (proofItem[0].programDetails) {
-        proofItem[0].programDetails = proofItem[0].programDetails[0];
-      }
-      // if (proofItem[0].claimAlias[0]) {
-      //   proofItem[0].claimAlias = "zCloak Primary Access";
-      // }
-      proofArr.push(proofItem[0]);
     }
     return proofArr;
   } else {
@@ -56,9 +56,8 @@ async function getOneProof(dataOwner, programHash) {
           item.status = "Verifing";
         }
 
-        // item.status = item.status[0];
         item.programDetails = item.programDetails[0];
-        item.claimAlias = "zCloak Primary Access";
+        item.claimAlias = item.claimAlias[0].cTypeAlias;
       });
     }
     return userProofsArr;
@@ -87,8 +86,17 @@ async function ifHaveProofs(dataOwner, programHash) {
   return proof;
 }
 
+async function getUserTransferPercent(dataOwner, rootHash) {
+  const transferData = await TransferModel.getUserTransferPercent(
+    dataOwner,
+    rootHash
+  );
+  return (transferData / 3).toFixed(2);
+}
+
 module.exports = {
   getAllProofs: getAllProofs,
   getOneProof: getOneProof,
   ifHaveProofs: ifHaveProofs,
+  getUserTransferPercent: getUserTransferPercent,
 };

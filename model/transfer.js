@@ -41,6 +41,7 @@ async function getUserTransferRecord(dataOwner) {
   });
 }
 
+
 module.exports = {
   getUserTransferRecord: getUserTransferRecord,
 };

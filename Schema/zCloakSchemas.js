@@ -53,27 +53,15 @@ const WorkerResultSchema = new Schema({
     type: String,
     required: true,
   },
-  cTypeHash: {
+  worker: {
     type: String,
-    required: false,
+    required: true,
   },
-  programHash: {
+  rootHash: {
     type: String,
-    required: false,
-  },
-  verifyResult: {
-    type: Boolean,
     required: true,
   },
-  workerMessage: {
-    type: Array,
-    required: true,
-  },
-  passedTimes: {
-    type: Number,
-    required: true,
-  },
-  ifFinishVerify: {
+  isPassed: {
     type: Boolean,
     required: true,
   },
@@ -153,6 +141,10 @@ const TokenSchema = new Schema({
   tokenImageUrl: {
     type: String,
     required: true,
+  },
+  tokenUnit: {
+    type: Number,
+    required: false,
   },
 });
 // event AddRule(address token, address checker, bytes32 cType, bytes32 programHash, bool expectedResult);

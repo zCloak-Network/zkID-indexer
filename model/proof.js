@@ -1,5 +1,5 @@
 // const dbCommon = require("../Schema/common");
-const { ProofModel } = require("../Schema/init");
+const { ProofModel, WorkerResult } = require("../Schema/init");
 
 /**
  *
@@ -134,8 +134,22 @@ async function ifHaveProofs(dataOwner, programHash) {
   });
 }
 
+async function getUserTransferPercent(dataOwner, rootHash) {
+  return new Promise((resolve, reject) => {
+    WorkerResult.find(
+      { dataOwner: dataOwner, rootHash: rootHash },
+      (err, result) => {
+        if (err) {
+        }
+        resolve(result);
+      }
+    );
+  });
+}
+
 module.exports = {
   getOneProof: getOneProof,
   getUserProof: getUserProof,
   ifHaveProofs: ifHaveProofs,
+  getUserTransferPercent: getUserTransferPercent,
 };

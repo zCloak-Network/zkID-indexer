@@ -39,31 +39,7 @@ router.get("/proofs/one", async (ctx) => {
   }
 });
 
-router.get("/tokens", async (ctx) => {
-  try {
-    const tokens = await tokenController.getAllTokens();
-    ctx.body = message(200, "tokens", tokens);
-  } catch (error) {
-    // TODO add log4j
-    console.log(error);
-
-    ctx.body = message(200, "Database error");
-  }
-});
-
-router.get("/tokens/rules", async (ctx) => {
-  const { tokenAddress } = ctx.query;
-  try {
-    const tokenRules = await tokenController.getTokenRule(
-      (tokenAddress + "").toLowerCase()
-    );
-    ctx.body = message(200, "token rules", tokenRules);
-  } catch (error) {
-    // TODO add log4j
-    console.log(error);
-    ctx.body = message(200, "Database error");
-  }
-});
+token;
 
 router.get("/programs", async (ctx) => {
   try {
@@ -84,6 +60,21 @@ router.get("/transfer/record", async (ctx) => {
       (dataOwner + "").toLowerCase()
     );
     ctx.body = message(200, "transfer record", transferRecord);
+  } catch (error) {
+    // TODO add log4j
+    console.log(error);
+    ctx.body = message(200, "Database error");
+  }
+});
+
+router.post("/proofs/percent", async (ctx) => {
+  const { dataOwner, rootHash } = ctx.request.body;
+  try {
+    const transferRecord = await proofsController.getUserTransferPercent(
+      (dataOwner + "").toLowerCase(),
+      (rootHash + "").toLowerCase()
+    );
+    ctx.body = message(200, "Percent", transferRecord);
   } catch (error) {
     // TODO add log4j
     console.log(error);
