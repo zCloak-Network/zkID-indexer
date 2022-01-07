@@ -135,7 +135,7 @@ async function queryTransaction(c) {
 }
 
 async function scan() {
-  let blocks = [];
+  // let blocks = [];
   const dataRecord = await BlockModel.find();
   if (dataRecord.length === 0) {
     const nb = new BlockModel({
@@ -151,11 +151,12 @@ async function scan() {
   const blockNumberNow = await w3.eth.getBlockNumber();
   console.log("now");
   console.log(blockNumberNow);
-  let i = 1388966;
-  // for (i = lastNumberBN.toNumber(); i < blockNumberNow; i++) {
-  // blocks.push(queryOneBlockTransaction(i));
-  await queryOneBlockTransaction(i);
-  // }
+  let i;
+  for (i = lastNumberBN.toNumber(); i < blockNumberNow; i++) {
+    // blocks.push(queryOneBlockTransaction(i));
+    console.log(`now scaning  --->  ${i}`);
+    await queryOneBlockTransaction(i);
+  }
   // blocks.push(queryOneBlockTransaction(1338546));
   const newBlockNumberRec = new BlockModel({
     blockNumber: i,
