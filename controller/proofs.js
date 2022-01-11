@@ -6,13 +6,19 @@ async function getAllProofs() {
 
 async function getOneProof(dataOwner, programHash) {
   if (Array.isArray(programHash) && programHash.length) {
-    console.log("one");
+    // console.log("one");
     const proofArr = [];
     for (let i = 0; i < programHash.length; i++) {
       let proofItem = await Proofs.getOneProof(dataOwner, programHash[i]);
-      console.log(proofItem);
+
+      // console.log(proofItem);
 
       if (proofItem.length) {
+        const percent = await getUserProofPercent(
+          proofItem[0].dataOwner,
+          proofItem[0].rootHash
+        );
+        proofItem[0].percent = percent;
         if (proofItem[0].status && proofItem[0].status.length) {
           const sstatus = proofItem[0].status[0];
           proofItem[0].claimAlias = proofItem[0].claimAlias[0].cTypeAlias;
@@ -39,10 +45,15 @@ async function getOneProof(dataOwner, programHash) {
 
     let userProofsArr = await Proofs.getUserProof(dataOwner);
     if (userProofsArr.length > 0) {
-      console.log(userProofsArr);
-      userProofsArr.forEach((item) => {
-        console.log(item.status);
+      // console.log(userProofsArr);
 
+      for (let i = 0; i < userProofsArr.length; i++) {
+        const item = userProofsArr[i];
+        const percent = await getUserProofPercent(
+          item.dataOwner,
+          item.rootHash
+        );
+        item.percent = percent;
         if (item.status.length) {
           const sstatus = item.status[0];
           if (sstatus.isPassed) {
@@ -56,7 +67,11 @@ async function getOneProof(dataOwner, programHash) {
 
         item.programDetails = item.programDetails[0];
         item.claimAlias = item.claimAlias[0].cTypeAlias;
-      });
+      }
+
+      // userProofsArr.forEach((item) => {
+      //   // console.log(item.status);
+      // });
     }
     return userProofsArr;
   }
@@ -85,9 +100,9 @@ async function ifHaveProofs(dataOwner, programHash) {
 }
 
 async function getUserProofPercent(dataOwner, rootHash) {
-  const transferData = await Proofs.getUserProofPercent(dataOwner, rootHash);
-  console.log(transferData);
-  return (transferData.length / 3).toFixed(2);
+  const percent = await Proofs.getUserProofPercent(dataOwner, rootHash);
+  // console.log(percent);
+  return (percent.length / 3).toFixed(2);
 }
 
 module.exports = {

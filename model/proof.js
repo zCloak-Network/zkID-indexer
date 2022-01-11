@@ -38,6 +38,7 @@ async function getUserProof(dataOwner) {
             as: "claimAlias",
           },
         },
+        
       ],
       (err, result) => {
         if (err) {
@@ -87,6 +88,7 @@ async function getOneProof(dataOwner, programHash) {
             as: "claimAlias",
           },
         },
+        
       ],
       (err, result) => {
         if (err) {
