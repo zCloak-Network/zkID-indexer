@@ -39,8 +39,31 @@ router.get("/proofs/one", async (ctx) => {
   }
 });
 
-// token;
+router.get("/tokens", async (ctx) => {
+  try {
+    const tokens = await tokenController.getAllTokens();
+    ctx.body = message(200, "tokens", tokens);
+  } catch (error) {
+    // TODO add log4j
+    console.log(error);
 
+    ctx.body = message(200, "Database error");
+  }
+});
+
+router.get("/tokens/rules", async (ctx) => {
+  const { tokenAddress } = ctx.query;
+  try {
+    const tokenRules = await tokenController.getTokenRule(
+      (tokenAddress + "").toLowerCase()
+    );
+    ctx.body = message(200, "token rules", tokenRules);
+  } catch (error) {
+    // TODO add log4j
+    console.log(error);
+    ctx.body = message(200, "Database error");
+  }
+});
 router.get("/programs", async (ctx) => {
   try {
     const programs = await programController.getAllPrograms();
