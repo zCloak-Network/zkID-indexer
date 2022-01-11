@@ -39,7 +39,7 @@ router.get("/proofs/one", async (ctx) => {
   }
 });
 
-token;
+// token;
 
 router.get("/programs", async (ctx) => {
   try {
@@ -70,7 +70,7 @@ router.get("/transfer/record", async (ctx) => {
 router.post("/proofs/percent", async (ctx) => {
   const { dataOwner, rootHash } = ctx.request.body;
   try {
-    const transferRecord = await proofsController.getUserTransferPercent(
+    const transferRecord = await proofsController.getUserProofPercent(
       (dataOwner + "").toLowerCase(),
       (rootHash + "").toLowerCase()
     );

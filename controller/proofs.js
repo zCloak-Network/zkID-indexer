@@ -4,8 +4,6 @@ async function getAllProofs() {
   return await Proofs.getAllProofs();
 }
 
-
-
 async function getOneProof(dataOwner, programHash) {
   if (Array.isArray(programHash) && programHash.length) {
     console.log("one");
@@ -86,17 +84,15 @@ async function ifHaveProofs(dataOwner, programHash) {
   return proof;
 }
 
-async function getUserTransferPercent(dataOwner, rootHash) {
-  const transferData = await TransferModel.getUserTransferPercent(
-    dataOwner,
-    rootHash
-  );
-  return (transferData / 3).toFixed(2);
+async function getUserProofPercent(dataOwner, rootHash) {
+  const transferData = await Proofs.getUserProofPercent(dataOwner, rootHash);
+  console.log(transferData);
+  return (transferData.length / 3).toFixed(2);
 }
 
 module.exports = {
   getAllProofs: getAllProofs,
   getOneProof: getOneProof,
   ifHaveProofs: ifHaveProofs,
-  getUserTransferPercent: getUserTransferPercent,
+  getUserProofPercent: getUserProofPercent,
 };

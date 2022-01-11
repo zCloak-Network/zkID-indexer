@@ -134,7 +134,7 @@ async function ifHaveProofs(dataOwner, programHash) {
   });
 }
 
-async function getUserTransferPercent(dataOwner, rootHash) {
+async function getUserProofPercent(dataOwner, rootHash) {
   return new Promise((resolve, reject) => {
     WorkerResult.find(
       { dataOwner: dataOwner, rootHash: rootHash },
@@ -151,5 +151,5 @@ module.exports = {
   getOneProof: getOneProof,
   getUserProof: getUserProof,
   ifHaveProofs: ifHaveProofs,
-  getUserTransferPercent: getUserTransferPercent,
+  getUserProofPercent: getUserProofPercent,
 };
