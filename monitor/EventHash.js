@@ -42,7 +42,7 @@ async function queryOneBlockTransaction(blockNumber) {
     for (i = 0; i < transactions.length; i++) {
       // console.log(transactions[i].blockNumber);
       if (conArr.indexOf(transactions[i].to) !== -1) {
-        const items = await queryTransaction(transactions[i]);
+        const items = await queryTransaction(transactions[i].hash);
         await saveData(items);
       }
       // const items = await queryTransaction(transactions[i]);
