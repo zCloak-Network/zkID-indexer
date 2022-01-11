@@ -12,7 +12,12 @@ const {
   TransferModel,
 } = require("../Schema/init");
 const EventData = require("./EventData");
-var w3 = new web3("ws://45.32.73.14:40002/");
+var w3 = new web3("http://45.32.73.14:40001/");
+
+const conArr = [
+  "0x72AcB0f573287B3eE0375964D220158cD18465cb",
+  "0xC8e2409A0E15CBe517E178972855D486e7E881e1",
+];
 
 function convertEventToHashMap(EventData) {
   const eventMap = new Map();
@@ -29,11 +34,20 @@ function convertEventToHashMap(EventData) {
 }
 // 1343600
 async function queryOneBlockTransaction(blockNumber) {
-  const oneBlock = await w3.eth.getBlock(blockNumber);
-  const transactions = oneBlock.transactions;
-  for (i = 0; i < transactions.length; i++) {
-    const items = await queryTransaction(transactions[i]);
-    await saveData(items);
+  const oneBlock = await w3.eth.getBlock(blockNumber, true);
+  if (oneBlock && oneBlock.transactions && oneBlock.transactions.length) {
+    // console.log(oneBlock);
+    const transactions = oneBlock.transactions;
+    console.log(transactions[0].blockNumber);
+    for (i = 0; i < transactions.length; i++) {
+      // console.log(transactions[i].blockNumber);
+      if (conArr.indexOf(transactions[i].to) !== -1) {
+        const items = await queryTransaction(transactions[i]);
+        await saveData(items);
+      }
+      // const items = await queryTransaction(transactions[i]);
+      // await saveData(items);
+    }
   }
 }
 
@@ -76,12 +90,11 @@ async function saveData(item) {
             const rrr = new WorkerResult({
               dataOwner: logData.dataOwner.toLowerCase(),
               worker: logData.worker.toLowerCase(),
-              rootHash: logData.worker.toLowerCase(),
+              rootHash: logData.rootHash.toLowerCase(),
               isPassed: logData.isPassed,
             });
             await rrr.save();
             console.log("AddVerification save to database");
-
             break;
           case "worker_result_done":
             console.log("worker_result_done save to database");
@@ -139,10 +152,11 @@ async function scan() {
   const dataRecord = await BlockModel.find();
   if (dataRecord.length === 0) {
     const nb = new BlockModel({
-      blockNumber: "1348339",
+      blockNumber: "1340000",
       blockTime: new Date(),
     });
     await nb.save();
+    scan();
   }
   const lastNumber = dataRecord[dataRecord.length - 1].blockNumber;
   const lastNumberBN = new BN(lastNumber);
@@ -152,9 +166,9 @@ async function scan() {
   console.log("now");
   console.log(blockNumberNow);
   let i;
-  for (i = lastNumberBN.toNumber(); i < blockNumberNow; i++) {
+  for (i = lastNumberBN.toNumber(); i <= blockNumberNow; i++) {
     // blocks.push(queryOneBlockTransaction(i));
-    console.log(`now scaning  --->  ${i}`);
+    // console.log(`now scaning  --->  ${i}`);
     await queryOneBlockTransaction(i);
   }
   // blocks.push(queryOneBlockTransaction(1338546));
