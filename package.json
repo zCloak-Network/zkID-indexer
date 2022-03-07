@@ -1,18 +1,33 @@
 {
-  "name": "zCloak-Server",
+  "name": "zCloak-Server-ts",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "git@github.com:zCloak-Network/zCloak-Server.git",
-  "author": "lin <alpers@163.com>",
   "license": "MIT",
+  "devDependencies": {
+    "@graphprotocol/graph-ts": "^0.24.1",
+    "@types/koa": "^2.13.4",
+    "@types/koa-router": "^7.4.4",
+    "ts-node": "^10.4.0",
+    "ts-node-dev": "^1.1.8",
+    "typescript": "^4.5.4"
+  },
   "dependencies": {
+    "@koa/cors": "^3.1.0",
+    "@types/koa-bodyparser": "^4.3.5",
+    "@types/koa-static": "^4.0.2",
+    "@types/koa__cors": "^3.1.1",
     "koa": "^2.13.4",
     "koa-bodyparser": "^4.3.0",
+    "koa-combine-routers": "^4.0.2",
     "koa-router": "^10.1.1",
     "koa-static": "^5.0.0",
-    "koa2-cors": "^2.0.6",
-    "mongodb": "^4.2.1",
-    "mongoose": "^6.0.15",
+    "mongoose": "^6.1.4",
     "web3": "^1.6.1"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "tsc dist/index.ts",
+    "dev": "ts-node-dev src/index.ts",
+    "test": "ts-node-dev src/monitor/test.ts"
   }
 }
