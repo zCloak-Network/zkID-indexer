@@ -1,5 +1,5 @@
 import { Schema, connect, model } from "mongoose";
-import { AddProof, Verifying, Canonical, BlockRecord } from "./types";
+import { AddProof, Verifying, Canonical, BlockRecord, MintPoap } from "./types";
 
 const AddProofSchema = new Schema<AddProof>({
   blockNumber: {
@@ -141,8 +141,24 @@ const BlockRecordSchema = new Schema<BlockRecord>({
     required: true,
   },
 });
+
+const MintPoapSchema = new Schema<MintPoap>({
+  poapId: {
+    type: String,
+    required: true,
+  },
+  who: {
+    type: String,
+    required: true,
+  },
+  nftId: {
+    type: String,
+    required: true,
+  },
+});
+
 (async () => {
-  await connect("mongodb://127.0.0.1:27017/zCloak")
+  await connect("mongodb://127.0.0.1:27017/zCloak11")
     .then(() => console.log("MongoDB Connected"))
     .catch((err) => console.log(err));
 })();
@@ -153,3 +169,4 @@ export const BlockRecordModel = model<BlockRecord>(
   "block_record",
   BlockRecordSchema
 );
+export const MintPoapModel = model<MintPoap>("mint_poap", MintPoapSchema);

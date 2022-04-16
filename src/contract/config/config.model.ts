@@ -2,6 +2,7 @@ import {
   AddProofModel,
   VerifyingModel,
   CanonicalModel,
+  MintPoapModel,
 } from "../../database/init";
 import { TModel } from "../../database/types";
 
@@ -14,11 +15,11 @@ export function EventAndModel(): Map<string, TModel> {
   EventAndModels.set("AddProof", AddProofModel);
   EventAndModels.set("Verifying", VerifyingModel);
   EventAndModels.set("Canonical", CanonicalModel);
-
+  EventAndModels.set("MintPoap", MintPoapModel);
   return EventAndModels;
 }
 
-export const EventFilter = ["AddProof", "Verifying", "Canonical"];
+export const EventFilter = ["AddProof", "Verifying", "Canonical", "MintPoap"];
 
 // export const proofstorageContractInfo: IContractInfo = {
 //   abi: proofstorageAbi,

@@ -46,15 +46,22 @@ export interface BlockRecord {
   blockType: string;
 }
 
-export interface BlockRecordDelete {
-  blockNumber: number;
-  blockHash: string;
-  blockType: string;
-  blockTime: string;
+// export interface BlockRecordDelete {
+//   blockNumber: number;
+//   blockHash: string;
+//   blockType: string;
+//   blockTime: string;
+// }
+
+export interface MintPoap {
+  poapId: string;
+  who: string;
+  nftId: string;
 }
 
 export type TModel =
   | Model<AddProof>
   | Model<Verifying>
   | Model<Canonical>
+  | Model<MintPoap>
   | undefined;
