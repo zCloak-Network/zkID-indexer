@@ -1,6 +1,6 @@
 import { IContract } from "./types";
-import ProofContract from "./proofstorage";
-import SimpleAggregator from "./simpleAggregator";
+import ProofContract from "./proofstorage/index.test";
+import SimpleAggregator from "./simpleAggregator/indext.test";
 import MintPoap from "./MintPoap";
 
 export default async function (): Promise<Map<string, IContract>> {

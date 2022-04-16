@@ -158,7 +158,7 @@ const MintPoapSchema = new Schema<MintPoap>({
 });
 
 (async () => {
-  await connect("mongodb://127.0.0.1:27017/zCloak11")
+  await connect("mongodb://127.0.0.1:27017/zCloak")
     .then(() => console.log("MongoDB Connected"))
     .catch((err) => console.log(err));
 })();

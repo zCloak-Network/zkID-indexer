@@ -68,7 +68,7 @@ export function ifBatchTask(start: number, blockNumberNow: number): boolean {
 
 export async function insertBestBlockNumber(blockNumber: number) {
   const block_record = new BlockRecordModel({
-    blockNumber: blockNumber,
+    blockNumber: blockNumber + 1,
     blockType: "best",
   });
   await block_record.save();

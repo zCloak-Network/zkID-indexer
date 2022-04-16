@@ -22,6 +22,6 @@ async function main() {
   // console.log(allContractEvents);
 
   await instantTask(w3, taskStartBlock, taskEndBlock, allContractEvents);
+  setTimeout(main, 12000);
 }
 main();
-// setInterval(main, 12000);
