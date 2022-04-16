@@ -1,7 +1,7 @@
 import { IAbi, IContractInfo } from "../types";
 
 export const simpleAggregator = {
-  address: "0x06A0eDD63c5CaE529098721de5e6ac0EB2DBFE8C",
+  address: "0xAD3e0BdED679Bb7A90Fde25bB40b8162e55638be",
   name: "simpleAggregator",
   abi: [
     {
