@@ -9,7 +9,7 @@ export interface AddProof {
   attester: string;
   cType: string;
   programHash: string;
-  fieldName: Array<number>;
+  fieldNames: Array<string>;
   proofCid: string;
   requestHash: string;
   rootHash: string;
@@ -24,7 +24,7 @@ export interface Verifying {
   requestHash: string;
   worker: string;
   outputHash: string;
-  roothash: string;
+  rootHash: string;
   attester: string;
   isPassed: boolean;
   calcResult: Array<number>;
@@ -42,9 +42,8 @@ export interface Canonical {
 
 export interface BlockRecord {
   blockNumber: number;
-  blockHash: string;
+  blockHash?: string;
   blockType: string;
-  blockTime: string;
 }
 
 export interface BlockRecordDelete {

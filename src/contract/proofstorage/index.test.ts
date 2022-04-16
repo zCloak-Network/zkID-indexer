@@ -1,12 +1,12 @@
 import Contract from "../util/Contract";
 import { IAbi, IContract } from "../types";
-import { proofstorage } from "./abi";
+import { proofstorageLocal } from "./abi.test";
 
 export default async function (): Promise<IContract> {
   const proofstorageContract = new Contract(
-    proofstorage.abi,
-    proofstorage.address,
-    proofstorage.name
+    proofstorageLocal.abi,
+    proofstorageLocal.address,
+    proofstorageLocal.name
   );
 
   await proofstorageContract.caculateEventsHash();

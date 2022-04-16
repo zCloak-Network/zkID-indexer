@@ -1,5 +1,5 @@
 import { Schema, connect, model } from "mongoose";
-import { AddProof, Verifying, Canonical } from "./types";
+import { AddProof, Verifying, Canonical, BlockRecord } from "./types";
 
 const AddProofSchema = new Schema<AddProof>({
   blockNumber: {
@@ -31,8 +31,8 @@ const AddProofSchema = new Schema<AddProof>({
     type: String,
     required: true,
   },
-  fieldName: {
-    type: [Number],
+  fieldNames: {
+    type: [String],
     required: true,
   },
   proofCid: {
@@ -82,7 +82,7 @@ const VerifyingSchema = new Schema<Verifying>({
     type: String,
     required: true,
   },
-  roothash: {
+  rootHash: {
     type: String,
     required: true,
   },
@@ -126,6 +126,21 @@ const CanonicalSchema = new Schema<Canonical>({
     required: true,
   },
 });
+
+const BlockRecordSchema = new Schema<BlockRecord>({
+  blockNumber: {
+    type: Number,
+    required: true,
+  },
+  blockHash: {
+    type: String,
+    required: false,
+  },
+  blockType: {
+    type: String,
+    required: true,
+  },
+});
 (async () => {
   await connect("mongodb://127.0.0.1:27017/zCloak")
     .then(() => console.log("MongoDB Connected"))
@@ -134,3 +149,7 @@ const CanonicalSchema = new Schema<Canonical>({
 export const AddProofModel = model<AddProof>("proofs", AddProofSchema);
 export const VerifyingModel = model<Verifying>("verifying", VerifyingSchema);
 export const CanonicalModel = model<Canonical>("canonical", CanonicalSchema);
+export const BlockRecordModel = model<BlockRecord>(
+  "block_record",
+  BlockRecordSchema
+);

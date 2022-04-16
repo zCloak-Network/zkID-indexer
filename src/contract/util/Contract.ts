@@ -46,6 +46,9 @@ class Contract {
         const eventHashKey = await Web3.utils
           .keccak256(eventName)
           .toLowerCase();
+        console.log(eventName);
+
+        console.log(eventHashKey);
 
         const contractEvent: IContractEvent = {
           eventHash: eventHashKey,

@@ -1,6 +1,6 @@
 import Web3 from "web3";
 import { IContract } from "../contract/types";
-import { decodeDataAndSave } from "./task_utils";
+import { decodeDataAndSave, insertBestBlockNumber } from "./task_utils";
 
 export async function instantTask(
   w3: Web3,
@@ -10,7 +10,10 @@ export async function instantTask(
 ) {
   console.log(`scan [${startBlock}]--->[${endBlock}]`);
   for (let i = startBlock; i <= endBlock; i++) {
+    // console.log(`scaning  ${i}`);
+
     await scanSingleBlockTransaction(w3, i, allContractEvents);
+    await insertBestBlockNumber(i);
   }
 }
 
@@ -20,7 +23,7 @@ async function scanSingleBlockTransaction(
   allContractEvents: Map<string, IContract>
 ) {
   const singleBlock = await w3.eth.getBlock(blockNumber);
-  console.log(singleBlock);
+  // console.log(singleBlock);
 
   const transactions = singleBlock.transactions;
   // allContractEvents.get(transactionReceipt.to)
