@@ -1,6 +1,6 @@
 import Web3 from "web3";
-import { IAbi, IContract, IContractEvent, IInputItem } from "../types";
-import { EventFilter, EventAndModel } from "./abis/Contract.config";
+import { IAbi, IContract, IContractEvent } from "../types";
+import { EventFilter, EventAndModel } from "../config/config.model";
 
 /**
  * This class is used to generate the related event information of the Contract
@@ -15,7 +15,7 @@ class Contract {
   // contractName of a Contract
   private contractName: string;
   // The property contractEvents is a map, the key is the hash of the event calculated by the keccak256 hash algorithm, and the value is the related property of the event that needs to perform other operations
-  private contractEvents?: Map<string, IContractEvent> | undefined;
+  private contractEvents: Map<string, IContractEvent> | undefined;
 
   constructor(abi: IAbi[], address: string, contractName: string) {
     // TODO define Error

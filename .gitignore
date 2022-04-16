@@ -105,3 +105,8 @@ dist
 
 
 mongodb_data
+
+.vscode
+
+src/contract/simpleAggregator/abi.ts
+src/contract/proofstorage/abi.ts

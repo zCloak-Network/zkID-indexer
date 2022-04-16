@@ -4,9 +4,12 @@
   "main": "index.js",
   "license": "MIT",
   "devDependencies": {
+    "@commitlint/cli": "^16.2.3",
+    "@commitlint/config-conventional": "^16.2.1",
     "@graphprotocol/graph-ts": "^0.24.1",
     "@types/koa": "^2.13.4",
     "@types/koa-router": "^7.4.4",
+    "husky": "^7.0.4",
     "ts-node": "^10.4.0",
     "ts-node-dev": "^1.1.8",
     "typescript": "^4.5.4"
@@ -29,5 +32,10 @@
     "start": "tsc dist/index.ts",
     "dev": "ts-node-dev src/index.ts",
     "test": "ts-node-dev src/monitor/test.ts"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -e $GIT_PARAMS"
+    }
   }
 }
