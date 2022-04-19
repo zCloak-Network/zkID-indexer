@@ -1,7 +1,7 @@
 import { IAbi, IContractInfo } from "../types";
 
 export const proofstorageLocal = {
-  address: "0xd2b18e3adAeCd6A2982eAd32fd5Bbe1b19fD0371",
+  address: "0x4863BFcB4e33B4b4dEd4893fb7eb146f94f5F109",
   name: "addrProofStorage",
   abi: [
     {

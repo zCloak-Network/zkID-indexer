@@ -143,6 +143,19 @@ const BlockRecordSchema = new Schema<BlockRecord>({
 });
 
 const MintPoapSchema = new Schema<MintPoap>({
+  blockNumber: {
+    type: Number,
+    required: false,
+  },
+  blockHash: {
+    type: String,
+    required: false,
+  },
+  transactionHash: {
+    type: String,
+    required: false,
+  },
+
   poapId: {
     type: String,
     required: true,

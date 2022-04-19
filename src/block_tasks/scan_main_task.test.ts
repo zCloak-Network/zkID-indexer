@@ -3,7 +3,7 @@ import { batchTask } from "./batch_task";
 import { NETWORK, STARTBLOCK } from "./config/config.test";
 import { instantTask } from "./instant_task";
 import { getLastBestBlockNumber, ifBatchTask } from "./task_utils";
-import contracts from "../contract/contract.local.test";
+import contracts from "../contract/contractEventMap.local.test";
 import { IContract } from "../contract/types";
 
 async function main() {
@@ -17,7 +17,7 @@ async function main() {
     // ifBatchTaskFlag && (await batchTask());
     // !ifBatchTaskFlag &&
     const lastBlock = await getLastBestBlockNumber();
-    console.log(taskEndBlock);
+    console.log(`best block: [${taskEndBlock}]`);
 
     const taskStartBlock = lastBlock === 0 ? STARTBLOCK : lastBlock;
     // console.log(allContractEvents);

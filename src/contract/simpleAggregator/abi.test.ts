@@ -1,7 +1,7 @@
 import { IAbi, IContractInfo } from "../types";
 
 export const simpleAggregatorLocal = {
-  address: "0xE2D977dB82391031DF01d62D7DE285eBD7C8A0a6",
+  address: "0xc659829463095B012e7c8B8AA463EB1aa0b7d333",
   name: "addrSAggregator",
   abi: [
     {

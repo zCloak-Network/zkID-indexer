@@ -16,12 +16,6 @@ export async function decodeDataAndSave(
     if (events) {
       const logsArray = transactionReceipt.logs;
       logsArray.forEach(async (item) => {
-        console.log("&&&&&&&&&&&&&&&&&&&");
-
-        console.log(item);
-        console.log(item.topics);
-        console.log("&&&&&&&&&&&&&&&&&&&");
-
         const input = events.get(item.topics[0])?.eventInputs;
         const models = events.get(item.topics[0])?.eventModel;
 
@@ -31,7 +25,7 @@ export async function decodeDataAndSave(
             item.data,
             item.topics
           ) as unknown as any;
-          console.log(decodeData);
+          // console.log(decodeData);
 
           decodeData.blockNumber = transactionReceipt.blockNumber;
           decodeData.transactionHash = transactionReceipt.transactionHash;
@@ -41,12 +35,12 @@ export async function decodeDataAndSave(
             const newData = new models(decodeData);
             await newData.save().then((res) => {
               console.log(
-                `save to ${models.name}\ndata: ${JSON.stringify(res)}`
+                `save to ${models.modelName}\ndata: ${JSON.stringify(res)}`
               );
             });
           } catch (error) {
             console.log(
-              `save to ${models.name} error! \n data:\n ${JSON.stringify(
+              `save to ${models.modelName} error! \n data:\n ${JSON.stringify(
                 decodeData
               )}`
             );
@@ -59,7 +53,7 @@ export async function decodeDataAndSave(
 }
 
 export function ifBatchTask(start: number, blockNumberNow: number): boolean {
-  console.log(`now : ${blockNumberNow}  start   ${start}`);
+  // console.log(`now : ${blockNumberNow}  start   ${start}`);
   if (blockNumberNow > start + 50) {
     return true;
   }

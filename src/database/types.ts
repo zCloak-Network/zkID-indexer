@@ -38,6 +38,7 @@ export interface Canonical {
   cOwner: string;
   requestHash: string;
   outputHash: string;
+  
 }
 
 export interface BlockRecord {
@@ -54,6 +55,10 @@ export interface BlockRecord {
 // }
 
 export interface MintPoap {
+  blockNumber?: number;
+  blockHash?: string;
+  transactionHash?: string;
+
   poapId: string;
   who: string;
   nftId: string;

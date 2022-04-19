@@ -3,7 +3,7 @@ import { batchTask } from "./batch_task";
 import { NETWORK, STARTBLOCK } from "./config/config.base";
 import { instantTask } from "./instant_task";
 import { getLastBestBlockNumber, ifBatchTask } from "./task_utils";
-import contracts from "../contract/index";
+import contracts from "../contract/contractEventMap";
 import { IContract } from "../contract/types";
 
 async function main() {

@@ -1,7 +1,7 @@
 import { IAbi, IContractInfo } from "../types";
 
 export const MintPoap = {
-  address: "0x2a596000c14386e27c6fF1D86F011E5E0e6A2283",
+  address: "0xAB9CCcF3a6371C014d4B9dfCC55fD77dce89CC47",
   name: "MintPoap",
   abi: [
     {
