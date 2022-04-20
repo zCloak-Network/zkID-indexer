@@ -7,17 +7,27 @@ import contracts from "../contract/contractEventMap";
 import { IContract } from "../contract/types";
 
 async function main() {
-  const w3 = new Web3(NETWORK);
-  const allContractEvents: Map<string, IContract> = await contracts();
-  const lastBlock = await getLastBestBlockNumber();
+  try {
+    const w3 = new Web3(NETWORK);
+    const allContractEvents: Map<string, IContract> = await contracts();
+    const lastBlock = await getLastBestBlockNumber();
 
-  const taskStartBlock = lastBlock === 0 ? STARTBLOCK : lastBlock;
-  const taskEndBlock = await w3.eth.getBlockNumber();
+    const taskStartBlock = lastBlock === 0 ? STARTBLOCK : lastBlock;
+    const taskEndBlock = await w3.eth.getBlockNumber();
 
-  const ifBatchTaskFlag = await ifBatchTask(STARTBLOCK, 2001005);
+    const ifBatchTaskFlag = await ifBatchTask(STARTBLOCK, 2001005);
 
-  ifBatchTaskFlag && (await batchTask());
-  !ifBatchTaskFlag &&
-    (await instantTask(w3, taskStartBlock, taskEndBlock, allContractEvents));
+    // ifBatchTaskFlag && (await batchTask());
+    // !ifBatchTaskFlag &&
+    console.log(`best block: [${taskEndBlock}]`);
+
+    await instantTask(w3, taskStartBlock, taskEndBlock, allContractEvents);
+    setTimeout(main, 12000);
+  } catch (error) {
+    if ((error + "").search("Invalid JSON RPC response")) {
+      console.log(error);
+      setTimeout(main, 12000);
+    }
+  }
 }
 main();

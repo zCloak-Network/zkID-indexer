@@ -1,7 +1,7 @@
 import { IAbi, IContractInfo } from "../types";
 
 export const simpleAggregator = {
-  address: "0xAD3e0BdED679Bb7A90Fde25bB40b8162e55638be",
+  address: "0xf01FD25666baf302bbC6Fd5e6FA3197C7e7D06D6",
   name: "simpleAggregator",
   abi: [
     {
@@ -35,6 +35,18 @@ export const simpleAggregator = {
           internalType: "bytes32",
           name: "outputHash",
           type: "bytes32",
+        },
+        {
+          indexed: false,
+          internalType: "bool",
+          name: "isPassed",
+          type: "bool",
+        },
+        {
+          indexed: false,
+          internalType: "uint128[]",
+          name: "calcOutput",
+          type: "uint128[]",
         },
       ],
       name: "Canonical",
@@ -283,6 +295,30 @@ export const simpleAggregator = {
     {
       inputs: [
         {
+          internalType: "address",
+          name: "_cOwner",
+          type: "address",
+        },
+        {
+          internalType: "bytes32",
+          name: "_requestHash",
+          type: "bytes32",
+        },
+      ],
+      name: "clear",
+      outputs: [
+        {
+          internalType: "bool",
+          name: "",
+          type: "bool",
+        },
+      ],
+      stateMutability: "nonpayable",
+      type: "function",
+    },
+    {
+      inputs: [
+        {
           internalType: "bytes32",
           name: "_rootHash",
           type: "bytes32",
@@ -491,5 +527,5 @@ export const simpleAggregator = {
       stateMutability: "view",
       type: "function",
     },
-  ] as IAbi[],
+  ],
 } as IContractInfo;

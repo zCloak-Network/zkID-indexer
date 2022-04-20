@@ -1,7 +1,7 @@
 import { IAbi, IContractInfo } from "../types";
 
 export const proofstorage = {
-  address: "0xb7cD8D06A5479D2BB7a5C57f807d114D4ba5affa",
+  address: "0x88D6e4866Cb8c3513CfB120c650f0C467B62f18f",
   name: "proofstorage",
   abi: [
     {
@@ -44,9 +44,9 @@ export const proofstorage = {
         },
         {
           indexed: false,
-          internalType: "string",
-          name: "fieldName",
-          type: "string",
+          internalType: "uint128[]",
+          name: "fieldNames",
+          type: "uint128[]",
         },
         {
           indexed: false,
@@ -108,6 +108,32 @@ export const proofstorage = {
         {
           indexed: false,
           internalType: "address",
+          name: "account",
+          type: "address",
+        },
+      ],
+      name: "Paused",
+      type: "event",
+    },
+    {
+      anonymous: false,
+      inputs: [
+        {
+          indexed: false,
+          internalType: "address",
+          name: "account",
+          type: "address",
+        },
+      ],
+      name: "Unpaused",
+      type: "event",
+    },
+    {
+      anonymous: false,
+      inputs: [
+        {
+          indexed: false,
+          internalType: "address",
           name: "dataOwner",
           type: "address",
         },
@@ -149,6 +175,19 @@ export const proofstorage = {
     {
       inputs: [],
       name: "CONTRACT_MAIN_KILT",
+      outputs: [
+        {
+          internalType: "bytes32",
+          name: "",
+          type: "bytes32",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "CONTRACT_POAP_FACTORY",
       outputs: [
         {
           internalType: "bytes32",
@@ -268,9 +307,9 @@ export const proofstorage = {
           type: "bytes32",
         },
         {
-          internalType: "string",
-          name: "_fieldName",
-          type: "string",
+          internalType: "uint128[]",
+          name: "_fieldNames",
+          type: "uint128[]",
         },
         {
           internalType: "bytes32",
@@ -369,6 +408,26 @@ export const proofstorage = {
     },
     {
       inputs: [],
+      name: "pause",
+      outputs: [],
+      stateMutability: "nonpayable",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "paused",
+      outputs: [
+        {
+          internalType: "bool",
+          name: "",
+          type: "bool",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [],
       name: "registry",
       outputs: [
         {
@@ -431,6 +490,13 @@ export const proofstorage = {
       type: "function",
     },
     {
+      inputs: [],
+      name: "unPause",
+      outputs: [],
+      stateMutability: "nonpayable",
+      type: "function",
+    },
+    {
       inputs: [
         {
           internalType: "bytes32",
@@ -448,12 +514,17 @@ export const proofstorage = {
           type: "string",
         },
         {
+          internalType: "bytes32",
+          name: "_rootHash",
+          type: "bytes32",
+        },
+        {
           internalType: "uint128[]",
           name: "_expResult",
           type: "uint128[]",
         },
       ],
-      name: "update_proof",
+      name: "updateProof",
       outputs: [],
       stateMutability: "nonpayable",
       type: "function",

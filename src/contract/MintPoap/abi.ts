@@ -1,8 +1,8 @@
 import { IAbi, IContractInfo } from "../types";
 
 export const MintPoap = {
-  address: "0xAB9CCcF3a6371C014d4B9dfCC55fD77dce89CC47",
-  name: "MintPoap",
+  address: "0x445eb3C1262679d2A08bC0f968F2624BF209Fd04",
+  name: "ZcloakPoap",
   abi: [
     {
       inputs: [
@@ -87,6 +87,25 @@ export const MintPoap = {
         },
       ],
       name: "MintPoap",
+      type: "event",
+    },
+    {
+      anonymous: false,
+      inputs: [
+        {
+          indexed: true,
+          internalType: "address",
+          name: "previousOwner",
+          type: "address",
+        },
+        {
+          indexed: true,
+          internalType: "address",
+          name: "newOwner",
+          type: "address",
+        },
+      ],
+      name: "OwnershipTransferred",
       type: "event",
     },
     {
@@ -425,6 +444,26 @@ export const MintPoap = {
     },
     {
       inputs: [],
+      name: "owner",
+      outputs: [
+        {
+          internalType: "address",
+          name: "",
+          type: "address",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "pause",
+      outputs: [],
+      stateMutability: "nonpayable",
+      type: "function",
+    },
+    {
+      inputs: [],
       name: "paused",
       outputs: [
         {
@@ -447,6 +486,13 @@ export const MintPoap = {
         },
       ],
       stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "renounceOwnership",
+      outputs: [],
+      stateMutability: "nonpayable",
       type: "function",
     },
     {
@@ -574,6 +620,26 @@ export const MintPoap = {
         },
       ],
       stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [
+        {
+          internalType: "address",
+          name: "newOwner",
+          type: "address",
+        },
+      ],
+      name: "transferOwnership",
+      outputs: [],
+      stateMutability: "nonpayable",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "unPause",
+      outputs: [],
+      stateMutability: "nonpayable",
       type: "function",
     },
     {

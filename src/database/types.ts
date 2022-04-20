@@ -4,6 +4,7 @@ export interface AddProof {
   blockNumber?: number;
   blockHash?: string;
   transactionHash?: string;
+  blockTime?: number;
 
   dataOwner: string;
   attester: string;
@@ -19,6 +20,7 @@ export interface Verifying {
   blockNumber?: number;
   blockHash?: string;
   transactionHash?: string;
+  blockTime?: number;
 
   cOwner: string;
   requestHash: string;
@@ -34,11 +36,11 @@ export interface Canonical {
   blockNumber?: number;
   blockHash?: string;
   transactionHash?: string;
+  blockTime?: number;
 
   cOwner: string;
   requestHash: string;
   outputHash: string;
-  
 }
 
 export interface BlockRecord {
@@ -58,6 +60,7 @@ export interface MintPoap {
   blockNumber?: number;
   blockHash?: string;
   transactionHash?: string;
+  blockTime?: number;
 
   poapId: string;
   who: string;

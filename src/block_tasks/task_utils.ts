@@ -6,7 +6,8 @@ import { BlockRecordModel } from "../database/init";
 export async function decodeDataAndSave(
   w3: Web3,
   transactionReceipt: TransactionReceipt,
-  allContractEvents: Map<string, IContract>
+  allContractEvents: Map<string, IContract>,
+  blockTime: number
 ) {
   if (allContractEvents.get(transactionReceipt.to)) {
     // console.log(transactionReceipt);
@@ -30,6 +31,7 @@ export async function decodeDataAndSave(
           decodeData.blockNumber = transactionReceipt.blockNumber;
           decodeData.transactionHash = transactionReceipt.transactionHash;
           decodeData.blockHash = transactionReceipt.blockHash;
+          decodeData.blockTime = blockTime;
 
           try {
             const newData = new models(decodeData);

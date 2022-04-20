@@ -1,5 +1,6 @@
 import { Schema, connect, model } from "mongoose";
 import { AddProof, Verifying, Canonical, BlockRecord, MintPoap } from "./types";
+import { config } from "../../db";
 
 const AddProofSchema = new Schema<AddProof>({
   blockNumber: {
@@ -12,6 +13,10 @@ const AddProofSchema = new Schema<AddProof>({
   },
   transactionHash: {
     type: String,
+    required: false,
+  },
+  blockTime: {
+    type: Number,
     required: false,
   },
 
@@ -65,6 +70,10 @@ const VerifyingSchema = new Schema<Verifying>({
     type: String,
     required: false,
   },
+  blockTime: {
+    type: Number,
+    required: false,
+  },
 
   cOwner: {
     type: String,
@@ -112,6 +121,10 @@ const CanonicalSchema = new Schema<Canonical>({
     type: String,
     required: false,
   },
+  blockTime: {
+    type: Number,
+    required: false,
+  },
 
   cOwner: {
     type: String,
@@ -155,6 +168,10 @@ const MintPoapSchema = new Schema<MintPoap>({
     type: String,
     required: false,
   },
+  blockTime: {
+    type: Number,
+    required: false,
+  },
 
   poapId: {
     type: String,
@@ -170,8 +187,16 @@ const MintPoapSchema = new Schema<MintPoap>({
   },
 });
 
+// (async () => {
+//   await connect("mongodb://127.0.0.1:27017/zCloak")
+//     .then(() => console.log("MongoDB Connected"))
+//     .catch((err) => console.log(err));
+// })();
 (async () => {
-  await connect("mongodb://127.0.0.1:27017/zCloak")
+  await connect(config.url, {
+    user: config.user,
+    pass: config.pass,
+  })
     .then(() => console.log("MongoDB Connected"))
     .catch((err) => console.log(err));
 })();
