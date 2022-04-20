@@ -26,7 +26,7 @@ async function scanSingleBlockTransaction(
   allContractEvents: Map<string, IContract>
 ) {
   const singleBlock = await w3.eth.getBlock(blockNumber);
-  console.log(singleBlock);
+  // console.log(singleBlock);
 
   const transactions = singleBlock.transactions;
   // allContractEvents.get(transactionReceipt.to)
