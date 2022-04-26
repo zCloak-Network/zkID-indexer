@@ -11,7 +11,7 @@ export async function instantTask(
   if (startBlock <= endBlock) {
     console.log(`scan [${startBlock}]--->[${endBlock}]`);
     for (let i = startBlock; i <= endBlock; i++) {
-      // console.log(`scaning  ${i}`);
+      console.log(`scaning  ${i}`);
       await scanSingleBlockTransaction(w3, i, allContractEvents);
       await insertBestBlockNumber(i);
     }

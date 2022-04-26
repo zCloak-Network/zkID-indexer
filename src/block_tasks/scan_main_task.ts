@@ -5,6 +5,9 @@ import { instantTask } from "./instant_task";
 import { getLastBestBlockNumber, ifBatchTask } from "./task_utils";
 import contracts from "../contract/contractEventMap";
 import { IContract } from "../contract/types";
+import axios from "axios";
+import { botMessageFormat } from "../bot/bot";
+import { config } from "../../db";
 
 async function main() {
   try {
@@ -24,10 +27,18 @@ async function main() {
     await instantTask(w3, taskStartBlock, taskEndBlock, allContractEvents);
     setTimeout(main, 12000);
   } catch (error) {
-    if ((error + "").search("Invalid JSON RPC response")) {
-      console.log(error);
-      setTimeout(main, 12000);
-    }
+    console.log(error);
+    const lastBlock = await getLastBestBlockNumber();
+    const data = botMessageFormat(`**blockNumber**: ${lastBlock}`, error + "");
+    axios
+      .post(config.bot_url, data)
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    setTimeout(main, 12000);
   }
 }
 main();

@@ -41,12 +41,14 @@ export async function decodeDataAndSave(
               );
             });
           } catch (error) {
+            insertBestBlockNumber(decodeData.blockNumber);
             console.log(
               `save to ${models.modelName} error! \n data:\n ${JSON.stringify(
                 decodeData
               )}`
             );
             console.log(error);
+            throw new Error(error + "");
           }
         }
       });
