@@ -9,49 +9,53 @@ export async function decodeDataAndSave(
   allContractEvents: Map<string, IContract>,
   blockTime: number
 ) {
-  if (allContractEvents.get(transactionReceipt.to)) {
-    // console.log(transactionReceipt);
+  if (transactionReceipt && transactionReceipt?.to) {
+    if (allContractEvents.get(transactionReceipt.to)) {
+      // console.log(transactionReceipt);
 
-    const events = allContractEvents.get(transactionReceipt.to)?.contractEvents;
+      const events = allContractEvents.get(
+        transactionReceipt.to
+      )?.contractEvents;
 
-    if (events) {
-      const logsArray = transactionReceipt.logs;
-      logsArray.forEach(async (item) => {
-        const input = events.get(item.topics[0])?.eventInputs;
-        const models = events.get(item.topics[0])?.eventModel;
+      if (events) {
+        const logsArray = transactionReceipt.logs;
+        logsArray.forEach(async (item) => {
+          const input = events.get(item.topics[0])?.eventInputs;
+          const models = events.get(item.topics[0])?.eventModel;
 
-        if (input && models) {
-          const decodeData = w3.eth.abi.decodeLog(
-            input,
-            item.data,
-            item.topics
-          ) as unknown as any;
-          // console.log(decodeData);
+          if (input && models) {
+            const decodeData = w3.eth.abi.decodeLog(
+              input,
+              item.data,
+              item.topics
+            ) as unknown as any;
+            // console.log(decodeData);
 
-          decodeData.blockNumber = transactionReceipt.blockNumber;
-          decodeData.transactionHash = transactionReceipt.transactionHash;
-          decodeData.blockHash = transactionReceipt.blockHash;
-          decodeData.blockTime = blockTime;
+            decodeData.blockNumber = transactionReceipt.blockNumber;
+            decodeData.transactionHash = transactionReceipt.transactionHash;
+            decodeData.blockHash = transactionReceipt.blockHash;
+            decodeData.blockTime = blockTime;
 
-          try {
-            const newData = new models(decodeData);
-            await newData.save().then((res) => {
+            try {
+              const newData = new models(decodeData);
+              await newData.save().then((res) => {
+                console.log(
+                  `save to ${models.modelName}\ndata: ${JSON.stringify(res)}`
+                );
+              });
+            } catch (error) {
+              insertBestBlockNumber(decodeData.blockNumber);
               console.log(
-                `save to ${models.modelName}\ndata: ${JSON.stringify(res)}`
+                `save to ${models.modelName} error! \n data:\n ${JSON.stringify(
+                  decodeData
+                )}`
               );
-            });
-          } catch (error) {
-            insertBestBlockNumber(decodeData.blockNumber);
-            console.log(
-              `save to ${models.modelName} error! \n data:\n ${JSON.stringify(
-                decodeData
-              )}`
-            );
-            console.log(error);
-            throw new Error(error + "");
+              console.log(error);
+              throw new Error(error + "");
+            }
           }
-        }
-      });
+        });
+      }
     }
   }
 }
