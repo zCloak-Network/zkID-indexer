@@ -14,25 +14,24 @@ async function main() {
     const w3 = new Web3(NETWORK);
     const allContractEvents: Map<string, IContract> = await contracts();
     const lastBlock = await getLastBestBlockNumber();
-
     const taskStartBlock = lastBlock === 0 ? STARTBLOCK : lastBlock;
     const taskEndBlock = await w3.eth.getBlockNumber();
-
-    const ifBatchTaskFlag = await ifBatchTask(STARTBLOCK, taskEndBlock);
+    console.log(`best: [${taskEndBlock}]`);
+    // const ifBatchTaskFlag = await ifBatchTask(STARTBLOCK, taskEndBlock);
     const allContractAddArr: Array<string> = [];
     for (let key of allContractEvents.keys()) {
       allContractAddArr.push(key);
     }
-    ifBatchTaskFlag &&
-      (await batchTask(
-        w3,
-        taskStartBlock,
-        taskEndBlock,
-        allContractEvents,
-        allContractAddArr
-      ));
-    !ifBatchTaskFlag &&
-      (await instantTask(w3, taskStartBlock, taskEndBlock, allContractEvents));
+    // ifBatchTaskFlag &&
+    await batchTask(
+      w3,
+      taskStartBlock,
+      taskEndBlock,
+      allContractEvents,
+      allContractAddArr
+    );
+    // !ifBatchTaskFlag &&
+    //   (await instantTask(w3, taskStartBlock, taskEndBlock, allContractEvents));
     setTimeout(main, 12000);
   } catch (error) {
     console.log(error);

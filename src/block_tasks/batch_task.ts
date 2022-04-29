@@ -1,6 +1,10 @@
 import Web3 from "web3";
 import { IContract } from "../contract/types";
-import { decodeDataAndSave, decodeDataAndSave_batch } from "./task_utils";
+import {
+  decodeDataAndSave,
+  decodeDataAndSave_batch,
+  insertBestBlockNumber,
+} from "./task_utils";
 
 export async function batchTask(
   w3: Web3,
@@ -19,6 +23,7 @@ export async function batchTask(
     data.length && (await decodeDataAndSave_batch(w3, data, allContractEvents));
     i = i + 10;
   }
+  await insertBestBlockNumber(endBlock);
 }
 
 const getPastLogs_w3 = async (
@@ -27,7 +32,7 @@ const getPastLogs_w3 = async (
   to: number,
   addressArr: Array<string>
 ): Promise<Array<any>> => {
-  console.log(`batch scan [${from}] ---> [${to}]`);
+  console.log(`scan [${from}] ---> [${to}]`);
   return await w3.eth.getPastLogs({
     fromBlock: from,
     toBlock: to,
