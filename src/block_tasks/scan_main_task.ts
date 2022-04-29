@@ -18,27 +18,35 @@ async function main() {
     const taskStartBlock = lastBlock === 0 ? STARTBLOCK : lastBlock;
     const taskEndBlock = await w3.eth.getBlockNumber();
 
-    const ifBatchTaskFlag = await ifBatchTask(STARTBLOCK, 2001005);
-
-    // ifBatchTaskFlag && (await batchTask());
-    // !ifBatchTaskFlag &&
-    console.log(`best block: [${taskEndBlock}]`);
-
-    await instantTask(w3, taskStartBlock, taskEndBlock, allContractEvents);
+    const ifBatchTaskFlag = await ifBatchTask(STARTBLOCK, taskEndBlock);
+    const allContractAddArr: Array<string> = [];
+    for (let key of allContractEvents.keys()) {
+      allContractAddArr.push(key);
+    }
+    ifBatchTaskFlag &&
+      (await batchTask(
+        w3,
+        taskStartBlock,
+        taskEndBlock,
+        allContractEvents,
+        allContractAddArr
+      ));
+    !ifBatchTaskFlag &&
+      (await instantTask(w3, taskStartBlock, taskEndBlock, allContractEvents));
     setTimeout(main, 12000);
   } catch (error) {
     console.log(error);
     const lastBlock = await getLastBestBlockNumber();
     const data = botMessageFormat(`**blockNumber**: ${lastBlock}`, error + "");
-    axios
-      .post(config.bot_url, data)
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    setTimeout(main, 12000);
+    // axios
+    //   .post(config.bot_url, data)
+    //   .then((res) => {
+    //     console.log(res.data);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
+    // setTimeout(main, 12000);
   }
 }
 main();

@@ -1,7 +1,8 @@
-import { IContract } from "./types";
+import { IContract, IModelAndInput } from "./types";
 import ProofContract from "./proofstorage";
 import SimpleAggregator from "./simpleAggregator";
 import MintPoap from "./MintPoap";
+import { TModel } from "../database/types";
 
 export default async function (): Promise<Map<string, IContract>> {
   const contractMaps = new Map<string, IContract>();
@@ -16,3 +17,22 @@ export default async function (): Promise<Map<string, IContract>> {
 
   return contractMaps;
 }
+
+export const getModels = (
+  maps: Map<string, IContract>,
+  topics: string
+): IModelAndInput | null => {
+  console.log("get");
+
+  for (const key of maps.keys()) {
+    const contract = maps.get(key)?.contractEvents?.get(topics);
+    if (contract) {
+      console.log(contract.eventName);
+      return {
+        emodel: contract.eventModel,
+        einput: contract.eventInputs,
+      };
+    }
+  }
+  return null;
+};

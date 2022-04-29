@@ -5,7 +5,8 @@
     "strict": true,
     "esModuleInterop": true, /* 支持以import xx from ‘xx’格式引入 */
     "skipLibCheck": true, /* 跳过声明文件的类型检查 */
-    "forceConsistentCasingInFileNames": true /* 禁止对同一个文件的不一致的引用 */
+    "forceConsistentCasingInFileNames": true /* 禁止对同一个文件的不一致的引用 */,
+    "downlevelIteration": true
   },
   "include": [
     "src/**/*"

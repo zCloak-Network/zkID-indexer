@@ -51,3 +51,8 @@ export interface IContractEvent {
   eventInputs: AbiInput[];
   eventModel?: TModel;
 }
+
+export interface IModelAndInput {
+  einput: AbiInput[];
+  emodel: TModel;
+}
