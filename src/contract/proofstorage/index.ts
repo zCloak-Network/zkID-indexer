@@ -14,6 +14,6 @@ export default async function (): Promise<IContract> {
     proofstorage.name
   );
 
-  await proofstorageContract.caculateEventsHash();
+  await proofstorageContract.calculateEventsHash();
   return proofstorageContract.getContractEventDatas();
 }

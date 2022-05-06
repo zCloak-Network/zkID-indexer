@@ -19,9 +19,9 @@ export default async function (): Promise<Map<string, IContract>> {
     SimpleAggregator.contractName
   );
   const ZCloakPoapContract = new Contract(ZCloakPoap.abi as IAbi[], address.ZcloakPoap, ZCloakPoap.contractName);
-  await ProofStorageContract.caculateEventsHash();
-  await SimpleAggregatorContract.caculateEventsHash();
-  await ZCloakPoapContract.caculateEventsHash();
+  await ProofStorageContract.calculateEventsHash();
+  await SimpleAggregatorContract.calculateEventsHash();
+  await ZCloakPoapContract.calculateEventsHash();
 
   const ProofStorageContractData = ProofStorageContract.getContractEventDatas();
   const SimpleAggregatorContractData = SimpleAggregatorContract.getContractEventDatas();

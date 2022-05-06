@@ -1,10 +1,6 @@
 import Web3 from "web3";
 import { IContract } from "../contract/types";
-import {
-  decodeDataAndSave,
-  decodeDataAndSave_batch,
-  insertBestBlockNumber,
-} from "./task_utils";
+import { decodeDataAndSave, decodeAllData, insertBestBlockNumber } from "./task_utils";
 
 export async function batchTask(
   w3: Web3,
@@ -13,25 +9,21 @@ export async function batchTask(
   allContractEvents: Map<string, IContract>,
   allContractAddArr: Array<string>
 ) {
+  const blockLimit = 10;
   for (let i = startBlock; i <= endBlock; ) {
     let data: Array<any>;
-    if (i + 10 >= endBlock) {
-      data = await getPastLogs_w3(w3, i, endBlock, allContractAddArr);
+    if (i + blockLimit >= endBlock) {
+      data = await getData(w3, i, endBlock, allContractAddArr);
     } else {
-      data = await getPastLogs_w3(w3, i, i + 10 - 1, allContractAddArr);
+      data = await getData(w3, i, i + blockLimit - 1, allContractAddArr);
     }
-    data.length && (await decodeDataAndSave_batch(w3, data, allContractEvents));
-    i = i + 10;
+    data.length && (await decodeAllData(w3, data, allContractEvents));
+    i = i + blockLimit;
   }
   await insertBestBlockNumber(endBlock);
 }
 
-const getPastLogs_w3 = async (
-  w3: Web3,
-  from: number,
-  to: number,
-  addressArr: Array<string>
-): Promise<Array<any>> => {
+const getData = async (w3: Web3, from: number, to: number, addressArr: Array<string>): Promise<Array<any>> => {
   console.log(`scan [${from}] ---> [${to}]`);
   return await w3.eth.getPastLogs({
     fromBlock: from,

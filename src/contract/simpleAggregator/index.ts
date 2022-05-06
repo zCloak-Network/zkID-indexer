@@ -13,6 +13,6 @@ export default async function (): Promise<IContract> {
     simpleAggregator.address,
     simpleAggregator.name
   );
-  await simpleAggregatorContract.caculateEventsHash();
+  await simpleAggregatorContract.calculateEventsHash();
   return simpleAggregatorContract.getContractEventDatas();
 }

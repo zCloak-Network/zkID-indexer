@@ -53,6 +53,6 @@ export interface IContractEvent {
 }
 
 export interface IModelAndInput {
-  einput: AbiInput[];
-  emodel: TModel;
+  input: AbiInput[];
+  model: TModel;
 }

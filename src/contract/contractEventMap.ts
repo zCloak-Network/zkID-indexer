@@ -21,11 +21,11 @@ export default async function (): Promise<Map<string, IContract>> {
 export const getModels = (maps: Map<string, IContract>, topics: string): IModelAndInput | null => {
   for (const key of maps.keys()) {
     const contract = maps.get(key)?.contractEvents?.get(topics);
-    if (contract) {
+    if (contract && contract.eventModel) {
       console.log(contract.eventName);
       return {
-        emodel: contract.eventModel,
-        einput: contract.eventInputs,
+        model: contract.eventModel,
+        input: contract.eventInputs,
       };
     }
   }

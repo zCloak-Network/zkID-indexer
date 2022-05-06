@@ -67,9 +67,6 @@ export interface MintPoap {
   nftId: string;
 }
 
-export type TModel =
-  | Model<AddProof>
-  | Model<Verifying>
-  | Model<Canonical>
-  | Model<MintPoap>
-  | undefined;
+export type TModel = Model<AddProof> | Model<Verifying> | Model<Canonical> | Model<MintPoap>;
+
+export type IDecodeData = AddProof | Verifying | Canonical | MintPoap;

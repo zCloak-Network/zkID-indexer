@@ -26,11 +26,11 @@ class Contract {
   }
 
   /**
-   * The caculateEventsHash method is to calculate information about a single event, including hash and other attributes
+   * The calculateEventsHash method is to calculate information about a single event, including hash and other attributes
    *
    * @memberof Contract
    */
-  async caculateEventsHash() {
+  async calculateEventsHash() {
     const eventItemMap = new Map<string, IContractEvent>();
 
     for (let i = 0; i < this.abi.length; i++) {
@@ -38,14 +38,9 @@ class Contract {
       const abiItem = this.abi[i];
 
       // filter of event, eventFilter is an array of specific events
-      if (
-        abiItem.type === "event" &&
-        EventFilter.indexOf(abiItem.name) !== -1
-      ) {
+      if (abiItem.type === "event" && EventFilter.indexOf(abiItem.name) !== -1) {
         const eventName = this.getEventName(abiItem);
-        const eventHashKey = await Web3.utils
-          .keccak256(eventName)
-          .toLowerCase();
+        const eventHashKey = await Web3.utils.keccak256(eventName).toLowerCase();
         // console.log(eventName);
 
         // console.log(eventHashKey);
@@ -56,7 +51,8 @@ class Contract {
           eventName: abiItem.name,
           eventModel: EventAndModel().get(abiItem.name),
         };
-        // console.log(`${contractEvent.eventName}----${contractEvent.eventHash}`);
+        console.log(`${contractEvent.eventName}----${contractEvent.eventHash}`);
+        // console.log(eventHashKey);
 
         eventItemMap.set(eventHashKey, contractEvent);
       }
@@ -68,10 +64,8 @@ class Contract {
     // type must be "event"
     // TODO add error deal in top level
 
-    if (item.type !== "event")
-      throw new TypeError("This item is not a contract event!");
-    if (!item.inputs.length)
-      throw new Error("inputs array length in this item is 0!");
+    if (item.type !== "event") throw new TypeError("This item is not a contract event!");
+    if (!item.inputs.length) throw new Error("inputs array length in this item is 0!");
 
     const inputs = item.inputs;
     const name = item.name;
@@ -79,9 +73,7 @@ class Contract {
     let paramsType: string = "";
 
     inputs.forEach((inputItem, index) => {
-      index
-        ? (paramsType = paramsType + "," + inputItem.type)
-        : (paramsType = inputItem.type);
+      index ? (paramsType = paramsType + "," + inputItem.type) : (paramsType = inputItem.type);
     });
     return `${name}(${paramsType})`;
   }

@@ -22,7 +22,7 @@
   "scripts": {
     "build": "tsc",
     "start": "ts-node src/block_tasks/scan_main_task.ts",
-    "dev": "ts-node-dev src/block_tasks/scan_main_task.test.ts",
+    "dev": "ts-node-dev src/index.ts",
     "test": "jest"
   },
   "husky": {

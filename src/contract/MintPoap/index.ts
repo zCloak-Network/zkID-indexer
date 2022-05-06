@@ -14,6 +14,6 @@ export default async function (): Promise<IContract> {
     MintPoap.name
   );
 
-  await MintPoapContract.caculateEventsHash();
+  await MintPoapContract.calculateEventsHash();
   return MintPoapContract.getContractEventDatas();
 }

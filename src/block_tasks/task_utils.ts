@@ -1,8 +1,9 @@
 import Web3 from "web3";
 import { TransactionReceipt, BlockNumber } from "web3-core";
 import { getModels } from "../contract/contractEventMap";
-import { IContract } from "../contract/types";
+import { IContract, IModelAndInput } from "../contract/types";
 import { BlockRecordModel } from "../database/init";
+import { AddProof, IDecodeData, TModel } from "../database/types";
 
 export async function decodeDataAndSave(
   w3: Web3,
@@ -13,9 +14,7 @@ export async function decodeDataAndSave(
   if (transactionReceipt && transactionReceipt?.to) {
     if (allContractEvents.get(transactionReceipt.to)) {
       // console.log(transactionReceipt);
-      const events = allContractEvents.get(
-        transactionReceipt.to
-      )?.contractEvents;
+      const events = allContractEvents.get(transactionReceipt.to)?.contractEvents;
 
       if (events) {
         const logsArray = transactionReceipt.logs;
@@ -24,11 +23,7 @@ export async function decodeDataAndSave(
           const models = events.get(item.topics[0])?.eventModel;
 
           if (input && models) {
-            const decodeData = (await w3.eth.abi.decodeLog(
-              input,
-              item.data,
-              item.topics
-            )) as unknown as any;
+            const decodeData = (await w3.eth.abi.decodeLog(input, item.data, item.topics)) as unknown as any;
             // console.log(decodeData);
 
             decodeData.blockNumber = transactionReceipt.blockNumber;
@@ -39,17 +34,11 @@ export async function decodeDataAndSave(
             try {
               const newData = new models(decodeData);
               await newData.save().then((res) => {
-                console.log(
-                  `save to ${models.modelName}\ndata: ${JSON.stringify(res)}`
-                );
+                console.log(`save to ${models.modelName}\ndata: ${JSON.stringify(res)}`);
               });
             } catch (error) {
               await insertBestBlockNumber(decodeData.blockNumber);
-              console.log(
-                `save to ${models.modelName} error! \n data:\n ${JSON.stringify(
-                  decodeData
-                )}`
-              );
+              console.log(`save to ${models.modelName} error! \n data:\n ${JSON.stringify(decodeData)}`);
               console.log(error);
               throw new Error(error + "");
             }
@@ -58,14 +47,6 @@ export async function decodeDataAndSave(
       }
     }
   }
-}
-
-export function ifBatchTask(start: number, blockNumberNow: number): boolean {
-  // console.log(`now : ${blockNumberNow}  start   ${start}`);
-  if (blockNumberNow > start + 10) {
-    return true;
-  }
-  return false;
 }
 
 export async function insertBestBlockNumber(blockNumber: number) {
@@ -92,45 +73,27 @@ interface Log {
   blockHash: string;
   blockNumber: number;
 }
-export async function decodeDataAndSave_batch(
-  w3: Web3,
-  logsArray: Log[],
-  allContractEvents: Map<string, IContract>
-) {
-  logsArray.forEach(async (item) => {
-    const blockInfo = await w3.eth.getBlock(item.blockNumber);
-    const topicsInputModel = getModels(allContractEvents, item.topics[0]);
+export async function decodeAllData(w3: Web3, logsArray: Log[], allContractEvents: Map<string, IContract>) {
+  // console.log(logsArray);
 
-    const input = topicsInputModel?.einput;
-    const models = topicsInputModel?.emodel;
-    if (input && models) {
-      const decodeData = (await w3.eth.abi.decodeLog(
-        input,
-        item.data,
-        item.topics
-      )) as unknown as any;
-      decodeData.blockNumber = item.blockNumber;
-      decodeData.transactionHash = item.transactionHash;
-      decodeData.blockHash = item.blockHash;
-      decodeData.blockTime = blockInfo.timestamp as number;
+  for (let i = logsArray.length - 1; i >= 0; i--) {
+    const topicsInputModel = getModels(allContractEvents, logsArray[i].topics[0]);
+    topicsInputModel && decodeOneAndSave(w3, topicsInputModel, logsArray[i]);
+  }
+}
 
-      try {
-        const newData = new models(decodeData);
-        await newData.save().then((res) => {
-          console.log(
-            `save to ${models.modelName}\ndata: ${JSON.stringify(res)}`
-          );
-        });
-      } catch (error) {
-        await insertBestBlockNumber(decodeData.blockNumber);
-        console.log(
-          `save to ${models.modelName} error! \n data:\n ${JSON.stringify(
-            decodeData
-          )}`
-        );
-        console.log(error);
-        throw new Error(error + "");
-      }
-    }
+async function decodeOneAndSave(w3: Web3, topicsInputModel: IModelAndInput, item: Log) {
+  const blockInfo = await w3.eth.getBlock(item.blockNumber);
+  const input = topicsInputModel.input;
+  const models = topicsInputModel.model;
+  const decodeData = (await w3.eth.abi.decodeLog(input, item.data, item.topics)) as unknown as IDecodeData;
+  // console.log(decodeData);
+  decodeData.blockNumber = item.blockNumber;
+  decodeData.transactionHash = item.transactionHash;
+  decodeData.blockHash = item.blockHash;
+  decodeData.blockTime = blockInfo.timestamp as number;
+
+  await new models(decodeData).save().then((res) => {
+    console.log(`save to ${models.modelName}\ndata: ${JSON.stringify(res)}`);
   });
 }
