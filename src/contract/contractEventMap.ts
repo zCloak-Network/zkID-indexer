@@ -18,12 +18,7 @@ export default async function (): Promise<Map<string, IContract>> {
   return contractMaps;
 }
 
-export const getModels = (
-  maps: Map<string, IContract>,
-  topics: string
-): IModelAndInput | null => {
-  console.log("get");
-
+export const getModels = (maps: Map<string, IContract>, topics: string): IModelAndInput | null => {
   for (const key of maps.keys()) {
     const contract = maps.get(key)?.contractEvents?.get(topics);
     if (contract) {

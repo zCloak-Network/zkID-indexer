@@ -186,24 +186,21 @@ const MintPoapSchema = new Schema<MintPoap>({
     required: true,
   },
 });
-// (async () => {
-//   await connect("mongodb://127.0.0.1:27017/zCloak66")
-//     .then(() => console.log("MongoDB Connected"))
-//     .catch((err) => console.log(err));
-// })();
 (async () => {
-  await connect(config.url, {
-    user: config.user,
-    pass: config.pass,
-  })
+  await connect("mongodb://127.0.0.1:27017/zCloak11")
     .then(() => console.log("MongoDB Connected"))
     .catch((err) => console.log(err));
 })();
+// (async () => {
+//   await connect(config.url, {
+//     user: config.user,
+//     pass: config.pass,
+//   })
+//     .then(() => console.log("MongoDB Connected"))
+//     .catch((err) => console.log(err));
+// })();
 export const AddProofModel = model<AddProof>("proofs", AddProofSchema);
 export const VerifyingModel = model<Verifying>("verifying", VerifyingSchema);
 export const CanonicalModel = model<Canonical>("canonical", CanonicalSchema);
-export const BlockRecordModel = model<BlockRecord>(
-  "block_record",
-  BlockRecordSchema
-);
+export const BlockRecordModel = model<BlockRecord>("block_record", BlockRecordSchema);
 export const MintPoapModel = model<MintPoap>("mint_poap", MintPoapSchema);
