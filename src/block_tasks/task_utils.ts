@@ -74,8 +74,7 @@ interface Log {
   blockNumber: number;
 }
 export async function decodeAllData(w3: Web3, logsArray: Log[], allContractEvents: Map<string, IContract>) {
-  // console.log(logsArray);
-
+  // The resulting array is in reverse order
   for (let i = logsArray.length - 1; i >= 0; i--) {
     const topicsInputModel = getModels(allContractEvents, logsArray[i].topics[0]);
     topicsInputModel && decodeOneAndSave(w3, topicsInputModel, logsArray[i]);
