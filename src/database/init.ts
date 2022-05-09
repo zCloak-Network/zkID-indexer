@@ -1,6 +1,6 @@
 import { Schema, connect, model } from "mongoose";
 import { AddProof, Verifying, Canonical, BlockRecord, MintPoap } from "./types";
-import { config } from "../../db";
+import config from "../../config.json";
 
 const AddProofSchema = new Schema<AddProof>({
   blockNumber: {
@@ -186,19 +186,19 @@ const MintPoapSchema = new Schema<MintPoap>({
     required: true,
   },
 });
-(async () => {
-  await connect("mongodb://127.0.0.1:27017/zCloak11")
-    .then(() => console.log("MongoDB Connected"))
-    .catch((err) => console.log(err));
-})();
 // (async () => {
-//   await connect(config.url, {
-//     user: config.user,
-//     pass: config.pass,
-//   })
+//   await connect("mongodb://127.0.0.1:27017/zCloak11")
 //     .then(() => console.log("MongoDB Connected"))
 //     .catch((err) => console.log(err));
 // })();
+(async () => {
+  await connect(config.mongodb.url, {
+    user: config.mongodb.user,
+    pass: config.mongodb.password,
+  })
+    .then(() => console.log("MongoDB Connected"))
+    .catch((err) => console.log(err));
+})();
 export const AddProofModel = model<AddProof>("proofs", AddProofSchema);
 export const VerifyingModel = model<Verifying>("verifying", VerifyingSchema);
 export const CanonicalModel = model<Canonical>("canonical", CanonicalSchema);

@@ -1,6 +1,6 @@
 {
   "network": "http://207.148.68.144:40001",
-  "startAt": 2025912,
+  "startBlock": 2025912,
 
   "mongodb": {
     "url": "",

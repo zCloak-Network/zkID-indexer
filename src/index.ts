@@ -7,14 +7,14 @@ import contractsMap from "./contract";
 import { IContract } from "./contract/types";
 import axios from "axios";
 import { botMessageFormat } from "./bot/bot";
-import { config } from "../db";
+import config from "../config.json";
 
 async function main() {
   try {
-    const w3 = new Web3(NETWORK);
+    const w3 = new Web3(config.network);
     const allContractEvents: Map<string, IContract> = await contractsMap();
     const lastBlock = await getLastBestBlockNumber();
-    const taskStartBlock = lastBlock === 0 ? STARTBLOCK : lastBlock;
+    const taskStartBlock = lastBlock === 0 ? config.startBlock : lastBlock;
     const taskEndBlock = await w3.eth.getBlockNumber();
     console.log(`best: [${taskEndBlock}]`);
 
