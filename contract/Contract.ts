@@ -1,6 +1,6 @@
 import Web3 from "web3";
-import { IAbi, IContract, IContractEvent } from "../types";
-import { EventFilter, EventAndModel } from "../config/config.model";
+import { IAbi, IContract, IContractEvent } from "./types";
+import config from "../config.json";
 
 /**
  * This class is used to generate the related event information of the Contract
@@ -18,8 +18,6 @@ class Contract {
   private contractEvents: Map<string, IContractEvent> | undefined;
 
   constructor(abi: IAbi[], address: string, contractName: string) {
-    // TODO define Error
-    // if(!abi.length) throw
     this.abi = abi;
     this.address = address.toLowerCase();
     this.contractName = contractName;
@@ -38,21 +36,15 @@ class Contract {
       const abiItem = this.abi[i];
 
       // filter of event, eventFilter is an array of specific events
-      if (abiItem.type === "event" && EventFilter.indexOf(abiItem.name) !== -1) {
+      if (abiItem.type === "event" && config.monitorEvents.indexOf(abiItem.name) !== -1) {
         const eventName = this.getEventName(abiItem);
         const eventHashKey = await Web3.utils.keccak256(eventName).toLowerCase();
-        // console.log(eventName);
-
-        // console.log(eventHashKey);
-
         const contractEvent: IContractEvent = {
           eventHash: eventHashKey,
           eventInputs: abiItem.inputs,
           eventName: abiItem.name,
-          eventModel: EventAndModel().get(abiItem.name),
         };
         console.log(`${contractEvent.eventName}----${contractEvent.eventHash}`);
-        // console.log(eventHashKey);
 
         eventItemMap.set(eventHashKey, contractEvent);
       }

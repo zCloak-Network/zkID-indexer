@@ -1,22 +1,52 @@
-# zCloak-Server
+# zkID-indexer
 
-zCloak Server retrieves each block from the moonbeam network and obtains data for users to query.
+zkID-indexer retrieves each block from the moonbeam network and obtains data for users to query.
 
-### How to start?
+## How to start?
 
-init
+### init
 
 ```
 yarn install
 ```
 
-start mongodb
+### configuration
+
+The configuration file is config.json in the root directory.
+
+- network: The blockchain network that needs to be scanned, using the rpc method to connect.
+- startBlock: Which block to start with
+- mongodb: Mongodb configuration
+- contracts: Contract information that needs to be monitored
+  - contractName
+  - contractAddress
+  - abiFile: Contract abi file, please use the format of /abi/ContractName.json, the abi file is placed in the contract/abi folder
+- monitorEvents: Which contracts to monitor for events
+- bot_url: webhook alarm robot
+
+```json
+{
+  "network": "", 
+  "startBlock": 0,
+  "mongodb": {
+    "url": "",
+    "user": "",
+    "password": ""
+  },
+  "contracts": [
+    {
+      "contractName": "",
+      "contractAddress": "",
+      "abiFile": ""
+    }
+  ],
+  "monitorEvents": ["", ""],
+  "bot_url": ""
+}
 
 ```
-mongod --dbpath ./path --port 2888
-```
 
-start project
+### start zkID-indexer
 
 ```
 yarn start

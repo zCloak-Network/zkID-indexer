@@ -49,7 +49,6 @@ export interface IContractEvent {
   eventHash: string;
   eventName: string;
   eventInputs: AbiInput[];
-  eventModel?: TModel;
 }
 
 export interface IModelAndInput {
