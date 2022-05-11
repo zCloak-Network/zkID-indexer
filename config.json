@@ -1,6 +1,6 @@
 {
   "network": "",
-  "startBlock": 0,
+  "startBlock":0,
 
   "mongodb": {
     "url": "",

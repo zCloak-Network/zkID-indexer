@@ -1,6 +1,4 @@
 import { Model } from "mongoose";
-import { AddProofModel, VerifyingModel, CanonicalModel, MintPoapModel } from "./init";
-
 export interface AddProof {
   blockNumber?: number;
   blockHash?: string;
@@ -65,12 +63,6 @@ export type TModel = Model<AddProof> | Model<Verifying> | Model<Canonical> | Mod
 
 export type IDecodeData = AddProof | Verifying | Canonical | MintPoap;
 
-export enum EventModelENUM {
-  "AddProof" = "proofs",
-  "Verifying" = "verifying",
-  "Canonical" = "canonical",
-  "MintPoap" = "mint_poap",
-}
 
 export interface IEventModel {
   AddProof: "proofs";

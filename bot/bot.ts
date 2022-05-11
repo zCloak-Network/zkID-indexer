@@ -1,7 +1,3 @@
-interface IBotMessage {
-  msg_type: "text";
-  content: { text: string };
-}
 export const botMessageFormat = (blockNumber: string, message: string) => {
   const botMessage: IBotMessageCard = {
     chat_id: "oc_abcdefg1234567890",
@@ -43,7 +39,7 @@ export const botMessageFormat = (blockNumber: string, message: string) => {
   };
   return botMessage;
 };
-interface IBotMessageCard {
+export interface IBotMessageCard {
   chat_id: "oc_abcdefg1234567890";
   msg_type: "interactive";
   root_id: "om_4*********************ad8";
