@@ -9,11 +9,16 @@ import { botMessageFormat, IBotMessageCard } from "../bot/bot";
 import axios from "axios";
 
 export async function decodeTransactionReceiptLogs(w3: Web3, logsArray: Log[], allContractEvents: Array<IContract>) {
-  logsArray.forEach((item) => {
-    const topicInput = getTopicAbi(allContractEvents, item.topics[0]);
-    const topicName = getTopicName(allContractEvents, item.topics[0]);
-    topicInput && topicName && decodeTransactionReceiptLog(w3, topicInput, topicName, item);
-  });
+  try {
+    logsArray.forEach((item) => {
+      const topicInput = getTopicAbi(allContractEvents, item.topics[0]);
+      const topicName = getTopicName(allContractEvents, item.topics[0]);
+      topicInput && topicName && decodeTransactionReceiptLog(w3, topicInput, topicName, item);
+    });
+  } catch (error) {
+    console.log("Error occurs in decodeTransactionReceiptLogs");
+    throw new Error(error + "");
+  }
 }
 
 async function decodeTransactionReceiptLog(w3: Web3, topicInput: AbiInput[], topicName: string, item: Log) {
@@ -75,11 +80,11 @@ export async function sendToBot(url: string, data: IBotMessageCard) {
     });
 }
 
-export async function dealNetworkError(config: any, lastBlock: number, netErrorCount: number): Promise<number> {
-  console.log("Network Error!");
+export async function dealNetworkError(error: any, config: any, lastBlock: number, netErrorCount: number): Promise<number> {
+  console.log(error);
   console.log(`zkID-indexer will try to reconnect ${config.network} after 12 seconds.`);
   // Start sending alerts after 50 unsuccessful attempts to connect to the network
-  const netErrorLimit = 50;
+  const netErrorLimit = 20;
   if (netErrorCount === netErrorLimit) {
     const data = botMessageFormat(
       `**blockNumber**: ${lastBlock}`,

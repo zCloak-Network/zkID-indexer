@@ -26,10 +26,15 @@ export async function batchTask(w3: Web3, startBlock: number, endBlock: number, 
 }
 
 const getTransactionReceiptLogs = async (w3: Web3, from: number, to: number, addressArr: Array<string>): Promise<Array<Log>> => {
-  console.log(`scan [${from}] ---> [${to}]`);
-  return await w3.eth.getPastLogs({
-    fromBlock: from,
-    toBlock: to,
-    address: addressArr,
-  });
+  try {
+    console.log(`scan [${from}] ---> [${to}]`);
+    return await w3.eth.getPastLogs({
+      fromBlock: from,
+      toBlock: to,
+      address: addressArr,
+    });
+  } catch (error) {
+    console.log("Error occurs in batchTasks getTransactionReceiptLogs");
+    throw new Error(error + "");
+  }
 };
