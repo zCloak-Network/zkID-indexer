@@ -19,7 +19,7 @@ async function main() {
       const taskStartBlock = lastBlock === 0 ? config.startBlock : lastBlock;
       const taskEndBlock = await w3.eth.getBlockNumber();
       await batchTask(w3, taskStartBlock, taskEndBlock, allContractEvents);
-      await sleep(3 * 1000);
+      await sleep(1 * 1000);
     }
   } catch (error) {
     const lastBlock = await getLastBestBlockNumber();
@@ -27,7 +27,7 @@ async function main() {
 
     if ((error + "").search("Invalid JSON RPC response") !== -1) {      
       netErrorCount = await dealNetworkError(error, config, lastBlock, netErrorCount);
-      await sleep(3 * 1000);
+      await sleep(5 * 1000);
       await main();
     } else {
       await dealOtherError(error, lastBlock, config);

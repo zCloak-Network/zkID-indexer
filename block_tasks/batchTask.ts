@@ -18,8 +18,9 @@ export async function batchTask(w3: Web3, startBlock: number, endBlock: number, 
       data.length && (await decodeTransactionReceiptLogs(w3, data, allContractEvents));
       i = i + blockLimit;
     }
-    console.log(`finish at [${endBlock}]`);
-    await saveBestBlockNumber(endBlock);
+    console.log(`finished at [${endBlock}]`);
+    console.log(`finished timestamp: ${new Date().getTime()}`);
+    // await saveBestBlockNumber(endBlock);
   } else {
     console.log("waiting new blocks");
   }
