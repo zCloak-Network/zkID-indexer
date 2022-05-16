@@ -14,6 +14,7 @@ yarn install
 
 The configuration file is config.json in the root directory.
 
+- name: zkID-indexer.
 - network: The blockchain network that needs to be scanned, using the rpc method to connect.
 - startBlock: Which block to start with
 - mongodb: Mongodb configuration
@@ -26,6 +27,7 @@ The configuration file is config.json in the root directory.
 
 ```json
 {
+  "name": "",
   "network": "", 
   "startBlock": 0,
   "mongodb": {

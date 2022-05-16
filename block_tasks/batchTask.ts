@@ -20,7 +20,7 @@ export async function batchTask(w3: Web3, startBlock: number, endBlock: number, 
     }
     console.log(`finished at [${endBlock}]`);
     console.log(`finished timestamp: ${new Date().getTime()}`);
-    // await saveBestBlockNumber(endBlock);
+    await saveBestBlockNumber(endBlock);
   } else {
     console.log("waiting new blocks");
   }

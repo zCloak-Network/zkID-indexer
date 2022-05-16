@@ -1,6 +1,7 @@
 {
+  "name": "",
   "network": "",
-  "startBlock":0,
+  "startBlock": 0,
 
   "mongodb": {
     "url": "",
@@ -14,6 +15,6 @@
       "abiFile": ""
     }
   ],
-  "monitorEvents": ["", ""],
+  "monitorEvents": [""],
   "bot_url": ""
 }
