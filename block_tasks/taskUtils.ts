@@ -57,13 +57,14 @@ export async function dealNetworkError(
   netErrorCount: number
 ): Promise<number> {
   console.log(error);
-  console.log(`zkID-indexer will try to reconnect ${config.network} after 12 seconds.`);
+  console.log(`zkID-indexer will try to reconnect ${config.network} after 5 seconds.`);
   // Start sending alerts after 50 unsuccessful attempts to connect to the network
   const netErrorLimit = 20;
   if (netErrorCount === netErrorLimit) {
     const data = botMessageFormat(
       `**blockNumber**: ${lastBlock}`,
-      `${config.name} will try to reconnect ${config.network} after 12 seconds.`
+      `${config.name} will try to reconnect ${config.network} after 5 seconds.\n
+      **error**: ${error + ""}`
     );
     config.bot_url.length && (await sendToBot(config.bot_url, data));
     return 0;

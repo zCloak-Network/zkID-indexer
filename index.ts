@@ -12,8 +12,8 @@ let netErrorCount = 0;
 async function main() {
   try {
     checkConfig(config);
+    const w3 = new Web3(new Web3.providers.HttpProvider(config.network));
     while (true) {
-      const w3 = new Web3(config.network);
       const allContractEvents: Array<IContract> = await contractsMap();
       const lastBlock = await getLastBestBlockNumber();
       const taskStartBlock = lastBlock === 0 ? config.startBlock : lastBlock;
@@ -25,7 +25,7 @@ async function main() {
     const lastBlock = await getLastBestBlockNumber();
     console.log(`error block ${lastBlock}`);
 
-    if ((error + "").search("Invalid JSON RPC response") !== -1) {      
+    if ((error + "").search("Invalid JSON RPC response") !== -1) {
       netErrorCount = await dealNetworkError(error, config, lastBlock, netErrorCount);
       await sleep(5 * 1000);
       await main();
