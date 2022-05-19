@@ -107,6 +107,3 @@ dist
 mongodb_data
 
 .vscode
-
-
-db.ts

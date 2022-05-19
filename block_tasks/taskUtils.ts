@@ -1,18 +1,24 @@
 import Web3 from "web3";
 import { Log } from "web3-core";
-import { getTopicAbi, getTopicName } from "../contract/util";
+import { checkConfig, getTopicAbi, getTopicName, getVersionContract } from "../contract/util";
 import { IContract } from "../contract/types";
 import { AbiInput } from "web3-utils";
 import { botMessageFormat, IBotMessageCard } from "../bot/bot";
 import axios from "axios";
 import { getProcessors } from "../database/processors";
+import { getVersionId, addNewVersion } from "../src/util";
+import { initDataSource } from "../src";
 
 export async function decodeTransactionReceiptLogs(w3: Web3, logsArray: Log[], allContractEvents: Array<IContract>) {
   try {
     logsArray.forEach((item) => {
       const topicInput = getTopicAbi(allContractEvents, item.topics[0]);
       const topicName = getTopicName(allContractEvents, item.topics[0]);
-      topicInput && topicName && decodeTransactionReceiptLog(w3, topicInput, topicName, item);
+      const versionContract = getVersionContract(allContractEvents, item.topics[0]);
+      topicInput &&
+        topicName &&
+        versionContract &&
+        decodeTransactionReceiptLog(w3, topicInput, topicName, item, versionContract);
     });
   } catch (error) {
     console.log("Error occurs in decodeTransactionReceiptLogs");
@@ -20,7 +26,14 @@ export async function decodeTransactionReceiptLogs(w3: Web3, logsArray: Log[], a
   }
 }
 
-async function decodeTransactionReceiptLog(w3: Web3, topicInput: AbiInput[], topicName: string, item: Log) {
+async function decodeTransactionReceiptLog(
+  w3: Web3,
+  topicInput: AbiInput[],
+  topicName: string,
+  item: Log,
+  versionContract: string
+) {
+  const versionChainId = await w3.eth.getChainId();
   const blockInfo = await w3.eth.getBlock(item.blockNumber);
   const decodeData = (await w3.eth.abi.decodeLog(topicInput, item.data, item.topics)) as unknown as any;
 
@@ -29,9 +42,14 @@ async function decodeTransactionReceiptLog(w3: Web3, topicInput: AbiInput[], top
   decodeData.transactionHash = item.transactionHash;
   decodeData.blockTime = blockInfo.timestamp;
 
+  const versionId = await getVersionId(versionChainId, versionContract);
+
+  // TODO remove mongodb
   const processors = getProcessors();
   processors.forEach(async (processor) => {
-    processor.isAdapt(topicName) && (await processor.isSave(decodeData)) && (await processor.save(decodeData));
+    processor.isAdapt(topicName) &&
+      (await processor.isSave(decodeData)) &&
+      (await processor.save(decodeData, versionId, versionContract));
   });
 }
 
@@ -81,4 +99,10 @@ export async function dealOtherError(error: any, lastBlock: number, config: any)
   );
   config.bot_url.length && (await sendToBot(config.bot_url, data));
   process.exit(1);
+}
+
+export async function initTask(config, w3: Web3) {
+  checkConfig(config);
+  await initDataSource(config.mysql);
+  await addNewVersion(w3, config.contracts);
 }

@@ -1,11 +1,17 @@
 {
   "name": "",
-  "network": "",
+  "network": "", 
   "startBlock": 0,
-
   "mongodb": {
     "url": "",
     "user": "",
+    "password": ""
+  },
+  "mysql": {
+    "host": "",
+    "port": 3306,
+    "database": "",
+    "username": "",
     "password": ""
   },
   "contracts": [
@@ -15,6 +21,6 @@
       "abiFile": ""
     }
   ],
-  "monitorEvents": [""],
+  "monitorEvents": ["", ""],
   "bot_url": ""
 }

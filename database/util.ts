@@ -2,7 +2,7 @@ import { BlockRecordModel } from "./init";
 
 export async function saveBestBlockNumber(blockNumber: number) {
   const block_record = new BlockRecordModel({
-    blockNumber: blockNumber + 1,
+    blockNumber: blockNumber,
     blockType: "best",
   });
   await block_record.save();

@@ -18,6 +18,7 @@ The configuration file is config.json in the root directory.
 - network: The blockchain network that needs to be scanned, using the rpc method to connect.
 - startBlock: Which block to start with
 - mongodb: Mongodb configuration
+- mysql: MySQL configuration
 - contracts: Contract information that needs to be monitored
   - contractName
   - contractAddress
@@ -33,6 +34,13 @@ The configuration file is config.json in the root directory.
   "mongodb": {
     "url": "",
     "user": "",
+    "password": ""
+  },
+  "mysql": {
+    "host": "",
+    "port": 3306,
+    "database": "",
+    "username": "",
     "password": ""
   },
   "contracts": [

@@ -1,21 +1,29 @@
 import { IContract, IModelAndInput } from "./types";
 import { AbiInput } from "web3-utils";
 
-export const getTopicAbi = (maps: Array<IContract>, topics: string): AbiInput[] | null => {
+export function getTopicAbi(maps: Array<IContract>, topics: string): AbiInput[] | null {
   for (let i = 0; i < maps.length; i++) {
     const contract = maps[i]?.contractEvents?.get(topics);
     if (contract) return contract.eventInputs;
   }
   return null;
-};
+}
 
-export const getTopicName = (maps: Array<IContract>, topics: string): string | null => {
+export function getTopicName(maps: Array<IContract>, topics: string): string | null {
   for (let i = 0; i < maps.length; i++) {
     const contract = maps[i]?.contractEvents?.get(topics);
     if (contract) return contract.eventName;
   }
   return null;
-};
+}
+
+export function getVersionContract(maps: Array<IContract>, topics: string): string | null {
+  for (let i = 0; i < maps.length; i++) {
+    const contract = maps[i]?.contractEvents?.get(topics);
+    if (contract) return maps[i].address;
+  }
+  return null;
+}
 
 function configErrorExit(message: string) {
   console.log(message);

@@ -3,11 +3,11 @@ import { IAbi, IContract } from "./types";
 import config from "../config.json";
 import * as fs from "fs";
 
-export default async function (): Promise<Array<IContract>> {
+export default async function (contracts: Array<any>): Promise<Array<IContract>> {
   const contractMaps = new Array<IContract>();
 
-  for (let i = 0; i < config.contracts.length; i++) {
-    const item = config.contracts[i];
+  for (let i = 0; i < contracts.length; i++) {
+    const item = contracts[i];
     if (fs.existsSync(__dirname + item.abiFile)) {
       let abiJson = JSON.parse(fs.readFileSync(__dirname + item.abiFile, "utf8"));
       const ContractItem = new Contract(abiJson.abi as IAbi[], item.contractAddress, abiJson.contractName);
@@ -22,4 +22,3 @@ export default async function (): Promise<Array<IContract>> {
   }
   return contractMaps;
 }
-

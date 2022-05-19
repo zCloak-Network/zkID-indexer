@@ -1,18 +1,23 @@
 {
-  "compilerOptions": {
-    "target": "ES2016", /* 解析结果 */
-    "module": "commonjs", /* 遵循的模块化规范 */
-    "strict": true,
-    "esModuleInterop": true, /* 支持以import xx from ‘xx’格式引入 */
-    "skipLibCheck": true, /* 跳过声明文件的类型检查 */
-    "forceConsistentCasingInFileNames": true /* 禁止对同一个文件的不一致的引用 */,
-    "downlevelIteration": true,
-    "resolveJsonModule": true,
-  },
-  "include": [
-    "src/**/*"
-  ], /* 指定需要编译的目录范围 */
-  "exclude": [
-    "node_modules"
-  ] /* 忽略类型检查的目录 */
+   "compilerOptions": {
+      "lib": [
+         "es5",
+         "es6"
+      ],
+      "target": "es5",
+      "module": "commonjs",
+      "esModuleInterop": true, /* 支持以import xx from ‘xx’格式引入 */
+      "skipLibCheck": true, /* 跳过声明文件的类型检查 */
+      "forceConsistentCasingInFileNames": true /* 禁止对同一个文件的不一致的引用 */,
+      "downlevelIteration": true,
+      "resolveJsonModule": true,
+      "moduleResolution": "node",
+      // "outDir": "./build",
+      "emitDecoratorMetadata": true,
+      "experimentalDecorators": true,
+      "sourceMap": true
+   },
+   "exclude": [
+      "node_modules"
+   ]
 }
