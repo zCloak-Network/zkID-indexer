@@ -29,7 +29,7 @@ The configuration file is config.dev.json or config.prod.json in the root direct
 ```json
 {
   "name": "",
-  "network": "", 
+  "network": "",
   "startBlock": 0,
   "mongodb": {
     "url": "",
@@ -53,11 +53,17 @@ The configuration file is config.dev.json or config.prod.json in the root direct
   "monitorEvents": ["", ""],
   "bot_url": ""
 }
-
 ```
 
-### start zkID-indexer
+
+#### Start in production
 
 ```
 yarn start
+```
+
+#### Start in the development environment
+
+```
+yarn dev
 ```
