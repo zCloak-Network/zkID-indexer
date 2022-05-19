@@ -187,14 +187,14 @@ const MintPoapSchema = new Schema<MintPoap>({
   },
 });
 
-(async () => {
+export async function initMongoDB(config) {
   await connect(config.mongodb.url, {
     user: config.mongodb.user,
     pass: config.mongodb.password,
   })
     .then(() => console.log("MongoDB Connected"))
     .catch((err) => console.log(err));
-})();
+}
 
 export const AddProofModel = model<AddProof>("proofs", AddProofSchema);
 export const VerifyingModel = model<Verifying>("verifying", VerifyingSchema);

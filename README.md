@@ -12,7 +12,7 @@ yarn install
 
 ### configuration
 
-The configuration file is config.json in the root directory.
+The configuration file is config.dev.json or config.prod.json in the root directory.
 
 - name: zkID-indexer.
 - network: The blockchain network that needs to be scanned, using the rpc method to connect.

@@ -7,7 +7,9 @@ import { botMessageFormat, IBotMessageCard } from "../bot/bot";
 import axios from "axios";
 import { getProcessors } from "../database/processors";
 import { getVersionId, addNewVersion } from "../src/util";
+import * as fs from "fs";
 import { initDataSource } from "../src";
+import { initMongoDB } from "../database/init";
 
 export async function decodeTransactionReceiptLogs(w3: Web3, logsArray: Log[], allContractEvents: Array<IContract>) {
   try {
@@ -104,5 +106,26 @@ export async function dealOtherError(error: any, lastBlock: number, config: any)
 export async function initTask(config, w3: Web3) {
   checkConfig(config);
   await initDataSource(config.mysql);
+  await initMongoDB(config);
   await addNewVersion(w3, config.contracts);
+}
+
+export function loadConfigFile(argv: Array<string>, path: string): any {
+  checkCommand(argv);
+  if (argv[3] === "dev" || argv[3] === "prod") {
+    const configFilePath = `${path}/config.${argv[3]}.json`;
+    if (fs.existsSync(configFilePath)) {
+      return JSON.parse(fs.readFileSync(configFilePath, "utf8"));
+    } else {
+      console.log(`Make sure you have the config.${argv[3]}.json file `);
+      process.exit(1);
+    }
+  }
+}
+
+function checkCommand(argv: Array<string>) {
+  if (argv.length !== 4) {
+    console.log("Please use the correct command to start!");
+    process.exit(1);
+  }
 }
