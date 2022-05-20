@@ -97,7 +97,7 @@ export async function dealOtherError(error: any, lastBlock: number, config: any)
   console.log(`This ${config.network} block scan task has been terminated due to an unexpected error.\n${error}`);
   const data = botMessageFormat(
     `**blockNumber**: ${lastBlock}`,
-    `This ${config.network} block scan task has been terminated due to an unexpected error.\n${error + ""}`
+    `${config.name} block scan task has been terminated due to an unexpected error.\n${error + ""}`
   );
   config.bot_url.length && (await sendToBot(config.bot_url, data));
   process.exit(1);
