@@ -6,16 +6,14 @@ import { getLastBestBlockNumber } from "./database/util";
 import { dealNetworkError, dealOtherError, initTask, loadConfigFile, sendToBot, sleep } from "./block_tasks/taskUtils";
 
 let netErrorCount = 0;
-let timeout = 2000;
+let timeout = 5000;
 
 async function main() {
   const config = loadConfigFile(process.argv, __dirname);
-
   try {
     const w3 = new Web3(new Web3.providers.HttpProvider(config.network, { timeout: timeout }));
-    const allContractEvents: Array<IContract> = await contractsMap(config.contracts);
+    const allContractEvents: Array<IContract> = await contractsMap(config);
     await initTask(config, w3);
-    
     while (true) {
       const lastBlock = await getLastBestBlockNumber();
       const taskStartBlock = lastBlock === 0 ? config.startBlock : lastBlock;

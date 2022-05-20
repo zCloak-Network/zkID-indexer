@@ -1,6 +1,5 @@
 import Web3 from "web3";
 import { IAbi, IContract, IContractEvent } from "./types";
-import config from "../config.json";
 
 /**
  * This class is used to generate the related event information of the Contract
@@ -28,7 +27,7 @@ class Contract {
    *
    * @memberof Contract
    */
-  async calculateEventsHash() {
+  async calculateEventsHash(config: any) {
     const eventItemMap = new Map<string, IContractEvent>();
 
     for (let i = 0; i < this.abi.length; i++) {

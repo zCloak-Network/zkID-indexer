@@ -5,6 +5,7 @@ let IndexerDataSource: DataSource;
 export async function initDataSource(mysqlConfig: any) {
   IndexerDataSource = getIndexerDataSource(mysqlConfig);
   !IndexerDataSource.isInitialized && (await IndexerDataSource.initialize());
+  console.log("MySQL Connected");
 }
 
 export async function destroyDataSource() {
