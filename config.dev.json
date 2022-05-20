@@ -1,6 +1,6 @@
 {
   "name": "",
-  "network": "", 
+  "network": "",
   "startBlock": 0,
   "mongodb": {
     "url": "",
@@ -19,8 +19,18 @@
       "contractName": "",
       "contractAddress": "",
       "abiFile": ""
+    },
+    {
+      "contractName": "",
+      "contractAddress": "",
+      "abiFile": ""
+    },
+    {
+      "contractName": "",
+      "contractAddress": "",
+      "abiFile": ""
     }
   ],
-  "monitorEvents": ["", ""],
+  "monitorEvents": ["", "", "", ""],
   "bot_url": ""
 }

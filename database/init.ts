@@ -1,6 +1,5 @@
 import { Schema, connect, model } from "mongoose";
 import { AddProof, Verifying, Canonical, BlockRecord, MintPoap } from "./types";
-import config from "../config.json";
 
 const AddProofSchema = new Schema<AddProof>({
   blockNumber: {
