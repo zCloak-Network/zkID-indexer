@@ -103,11 +103,11 @@ export async function dealOtherError(error: any, lastBlock: number, config: any)
   process.exit(1);
 }
 
-export async function initTask(config, w3: Web3) {
+export async function initTask(config) {
   checkConfig(config);
   await initDataSource(config.mysql);
   await initMongoDB(config);
-  await addNewVersion(w3, config.contracts);
+  // await addNewVersion(w3, config.contracts);
 }
 
 export function loadConfigFile(argv: Array<string>, path: string): any {
@@ -125,6 +125,8 @@ export function loadConfigFile(argv: Array<string>, path: string): any {
 
 function checkCommand(argv: Array<string>) {
   if (argv.length !== 4) {
+    console.log(argv);
+    
     console.log("Please use the correct command to start!");
     process.exit(1);
   }

@@ -13,7 +13,7 @@ async function main() {
   try {
     const w3 = new Web3(new Web3.providers.HttpProvider(config.network, { timeout: timeout }));
     const allContractEvents: Array<IContract> = await contractsMap(config);
-    await initTask(config, w3);
+    await initTask(config);
     while (true) {
       const lastBlock = await getLastBestBlockNumber();
       const taskStartBlock = lastBlock === 0 ? config.startBlock : lastBlock;
