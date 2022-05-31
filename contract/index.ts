@@ -1,6 +1,7 @@
 import Contract from "./Contract";
 import { IAbi, IContract } from "./types";
 import * as fs from "fs";
+import * as log4js from "../utils/log4js";
 
 export default async function (config: any): Promise<Array<IContract>> {
   const contractMaps = new Array<IContract>();
@@ -13,7 +14,7 @@ export default async function (config: any): Promise<Array<IContract>> {
       await ContractItem.calculateEventsHash(config);
       contractMaps.push(ContractItem.getContractEventDatas());
     } else {
-      console.log(
+      log4js.error(
         `${__dirname}${item.abiFile} does not exist! Check your contracts abiFile configuration in config.json`
       );
       process.exit(1);

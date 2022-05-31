@@ -4,11 +4,12 @@ import { IContract } from "../contract/types";
 import { saveBestBlockNumber } from "../database/util";
 import { saveMysqlBlockNumber } from "../src/util";
 import { decodeTransactionReceiptLogs } from "./taskUtils";
+import * as log4js from "../utils/log4js";
 
 export async function batchTask(w3: Web3, startBlock: number, endBlock: number, allContractEvents: Array<IContract>) {
   const blockLimit = 10;
   if (startBlock <= endBlock) {
-    console.log(`all tasks [${startBlock}] ---> [${endBlock}] --- best:[${endBlock}]`);
+    log4js.info(`all tasks [${startBlock}] ---> [${endBlock}] --- best:[${endBlock}]`);
     for (let i = startBlock; i <= endBlock; ) {
       let data: Array<any>;
       if (i + blockLimit >= endBlock) {
@@ -29,12 +30,12 @@ export async function batchTask(w3: Web3, startBlock: number, endBlock: number, 
       data.length && (await decodeTransactionReceiptLogs(w3, data, allContractEvents));
       i = i + blockLimit;
     }
-    console.log(`finished at [${endBlock}]`);
-    console.log(`finished timestamp: ${new Date().getTime()}`);
+    log4js.info(`finished at [${endBlock}]`);
+    log4js.info(`finished timestamp: ${new Date().getTime()}`);
     await saveBestBlockNumber(endBlock + 1);
     await saveMysqlBlockNumber(endBlock + 1);
   } else {
-    console.log("waiting new blocks");
+    log4js.info("waiting new blocks");
   }
 }
 
@@ -45,14 +46,15 @@ const getTransactionReceiptLogs = async (
   addressArr: Array<string>
 ): Promise<Array<Log>> => {
   try {
-    console.log(`scan [${from}] ---> [${to}]`);
+    log4js.info(`scan [${from}] ---> [${to}]`);
+
     return await w3.eth.getPastLogs({
       fromBlock: from,
       toBlock: to,
       address: addressArr,
     });
   } catch (error) {
-    console.log("Error occurs in batchTasks getTransactionReceiptLogs");
+    log4js.error("Error occurs in batchTasks getTransactionReceiptLogs");
     await saveBestBlockNumber(from);
     await saveMysqlBlockNumber(from);
     throw new Error(error + "");

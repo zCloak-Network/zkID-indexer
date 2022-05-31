@@ -10,6 +10,7 @@ import { getVersionId, addNewVersion } from "../src/util";
 import * as fs from "fs";
 import { initDataSource } from "../src";
 import { initMongoDB } from "../database/init";
+import * as log4js from "../utils/log4js";
 
 export async function decodeTransactionReceiptLogs(w3: Web3, logsArray: Log[], allContractEvents: Array<IContract>) {
   try {
@@ -23,7 +24,7 @@ export async function decodeTransactionReceiptLogs(w3: Web3, logsArray: Log[], a
         decodeTransactionReceiptLog(w3, topicInput, topicName, item, versionContract);
     });
   } catch (error) {
-    console.log("Error occurs in decodeTransactionReceiptLogs");
+    log4js.error("Error occurs in decodeTransactionReceiptLogs");
     throw new Error(error + "");
   }
 }
@@ -63,10 +64,10 @@ export async function sendToBot(url: string, data: IBotMessageCard) {
   await axios
     .post(url, data)
     .then((res) => {
-      console.log(res.data);
+      log4js.info(res.data);
     })
     .catch((error) => {
-      console.log(error);
+      log4js.error(error);
     });
 }
 
@@ -76,8 +77,8 @@ export async function dealNetworkError(
   lastBlock: number,
   netErrorCount: number
 ): Promise<number> {
-  console.log(error);
-  console.log(`zkID-indexer will try to reconnect ${config.network} after 5 seconds.`);
+  log4js.error(error);
+  log4js.error(`zkID-indexer will try to reconnect ${config.network} after 5 seconds.`);
   // Start sending alerts after 50 unsuccessful attempts to connect to the network
   const netErrorLimit = 20;
   if (netErrorCount === netErrorLimit) {
@@ -94,7 +95,7 @@ export async function dealNetworkError(
 }
 
 export async function dealOtherError(error: any, lastBlock: number, config: any) {
-  console.log(`This ${config.network} block scan task has been terminated due to an unexpected error.\n${error}`);
+  log4js.error(`This ${config.network} block scan task has been terminated due to an unexpected error.\n${error}`);
   const data = botMessageFormat(
     `**blockNumber**: ${lastBlock}`,
     `${config.name} block scan task has been terminated due to an unexpected error.\n${error + ""}`
@@ -117,7 +118,7 @@ export function loadConfigFile(argv: Array<string>, path: string): any {
     if (fs.existsSync(configFilePath)) {
       return JSON.parse(fs.readFileSync(configFilePath, "utf8"));
     } else {
-      console.log(`Make sure you have the config.${argv[3]}.json file `);
+      log4js.error(`Make sure you have the config.${argv[3]}.json file!`)
       process.exit(1);
     }
   }
@@ -125,9 +126,7 @@ export function loadConfigFile(argv: Array<string>, path: string): any {
 
 function checkCommand(argv: Array<string>) {
   if (argv.length !== 4) {
-    console.log(argv);
-    
-    console.log("Please use the correct command to start!");
+    log4js.error("Please use the correct command to start!")
     process.exit(1);
   }
 }

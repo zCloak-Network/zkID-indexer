@@ -3,6 +3,7 @@ import { PoapEntity } from "../../src/entity/Poap";
 import { MintPoapModel } from "../init";
 import { MintPoap } from "../types";
 import { IMintPoapProcessor } from "./processorsInterface";
+import * as log4js from "../../utils/log4js";
 
 export default class MintPoapProcessors implements IMintPoapProcessor {
   async isSave(receiptLogData: MintPoap): Promise<boolean> {
@@ -18,7 +19,9 @@ export default class MintPoapProcessors implements IMintPoapProcessor {
     try {
       // TODO remove mongodb
       const saveMintPoap = new MintPoapModel(receiptLogData);
-      await saveMintPoap.save().then((res) => console.log(`mongodb save ${MintPoapModel.modelName} ${JSON.stringify(res)}`));
+      await saveMintPoap
+        .save()
+        .then((res) => log4js.info(`mongodb save ${MintPoapModel.modelName} ${JSON.stringify(res)}`));
 
       // save to mysql
       const mintPoapRepository = await getTRepository(PoapEntity);
@@ -27,10 +30,10 @@ export default class MintPoapProcessors implements IMintPoapProcessor {
         receiptLogData.versionId = versionId;
         await mintPoapRepository
           .save(receiptLogData as unknown as PoapEntity)
-          .then((res) => console.log(`mysql save ${mintPoapRepository.metadata.tableName}\n${JSON.stringify(res)}`));
+          .then((res) => log4js.info(`mysql save ${mintPoapRepository.metadata.tableName}\n${JSON.stringify(res)}`));
       }
     } catch (error) {
-      console.log("The error occurs in saving MintPoap.");
+      log4js.error("The error occurs in saving MintPoap.");
       throw new Error(error + "");
     }
   }

@@ -1,5 +1,6 @@
 import { Schema, connect, model } from "mongoose";
 import { AddProof, Verifying, Canonical, BlockRecord, MintPoap } from "./types";
+import * as log4js from "../utils/log4js";
 
 const AddProofSchema = new Schema<AddProof>({
   blockNumber: {
@@ -191,8 +192,8 @@ export async function initMongoDB(config) {
     user: config.mongodb.user,
     pass: config.mongodb.password,
   })
-    .then(() => console.log("MongoDB Connected"))
-    .catch((err) => console.log(err));
+    .then(() => log4js.info("MongoDB Connected"))
+    .catch((err) => log4js.error(err));
 }
 
 export const AddProofModel = model<AddProof>("proofs", AddProofSchema);

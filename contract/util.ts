@@ -1,5 +1,6 @@
 import { IContract, IModelAndInput } from "./types";
 import { AbiInput } from "web3-utils";
+import * as log4js from "../utils/log4js";
 
 export function getTopicAbi(maps: Array<IContract>, topics: string): AbiInput[] | null {
   for (let i = 0; i < maps.length; i++) {
@@ -26,7 +27,7 @@ export function getVersionContract(maps: Array<IContract>, topics: string): stri
 }
 
 function configErrorExit(message: string) {
-  console.log(message);
+  log4js.error(message);
   process.exit(1);
 }
 

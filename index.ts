@@ -4,6 +4,7 @@ import contractsMap from "./contract";
 import { IContract } from "./contract/types";
 import { getLastBestBlockNumber } from "./database/util";
 import { dealNetworkError, dealOtherError, initTask, loadConfigFile, sendToBot, sleep } from "./block_tasks/taskUtils";
+import * as log4js from "./utils/log4js";
 
 let netErrorCount = 0;
 let timeout = 5000;
@@ -23,7 +24,7 @@ async function main() {
     }
   } catch (error) {
     const lastBlock = await getLastBestBlockNumber();
-    console.log(`error block ${lastBlock}`);
+    log4js.error(`error block ${lastBlock}`);
 
     if ((error + "").search("Invalid JSON RPC response") !== -1) {
       netErrorCount = await dealNetworkError(error, config, lastBlock, netErrorCount);

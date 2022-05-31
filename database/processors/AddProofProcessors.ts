@@ -4,6 +4,7 @@ import { ProofEntity } from "../../src/entity/Proof";
 import { AddProofModel } from "../init";
 import { AddProof } from "../types";
 import { IProofProcessor } from "./processorsInterface";
+import * as log4js from "../../utils/log4js";
 
 export default class ProofProcessors implements IProofProcessor {
   async isSave(receiptLogData: AddProof): Promise<boolean> {
@@ -21,7 +22,7 @@ export default class ProofProcessors implements IProofProcessor {
       const saveProof = new AddProofModel(receiptLogData);
       await saveProof
         .save()
-        .then((res) => console.log(`mongodb save ${AddProofModel.modelName} ${JSON.stringify(res)}`));
+        .then((res) => log4js.info(`mongodb save ${AddProofModel.modelName} ${JSON.stringify(res)}`));
 
       // save to mysql
       const proofRepository = await getTRepository(ProofEntity);
@@ -30,26 +31,10 @@ export default class ProofProcessors implements IProofProcessor {
         receiptLogData.versionId = versionId;
         await proofRepository
           .save(receiptLogData as unknown as ProofEntity)
-          .then((res) => console.log(`mysql save ${proofRepository.metadata.tableName} ${JSON.stringify(res)}`));
-
-        // const proof = new Proof();
-        // proof.attester = receiptLogData.attester;
-        // proof.blockHash = receiptLogData.blockHash;
-        // proof.blockNumber = receiptLogData.blockNumber;
-        // proof.blockTime = receiptLogData.blockTime;
-        // proof.cType = receiptLogData.cType;
-        // proof.dataOwner = receiptLogData.dataOwner;
-        // proof.expectResult = receiptLogData.expectResult;
-        // proof.fieldNames = receiptLogData.fieldNames;
-        // proof.programHash = receiptLogData.programHash;
-        // proof.proofCid = receiptLogData.proofCid;
-        // proof.requestHash = receiptLogData.requestHash;
-        // proof.rootHash = receiptLogData.rootHash;
-        // proof.transactionHash = receiptLogData.transactionHash;
-        // proof.versionId = versionId;
+          .then((res) => log4js.info(`mysql save ${proofRepository.metadata.tableName} ${JSON.stringify(res)}`));
       }
     } catch (error) {
-      console.log("The error occurs in saving AddProof.");
+      log4js.error("The error occurs in saving AddProof.");
       throw new Error(error + "");
     }
   }

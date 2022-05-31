@@ -3,6 +3,7 @@ import { VerifyingEntity } from "../../src/entity/Verifying";
 import { VerifyingModel } from "../init";
 import { Verifying } from "../types";
 import { IVerifyingProcessor } from "./processorsInterface";
+import * as log4js from "../../utils/log4js";
 
 export default class VerifyingProcessors implements IVerifyingProcessor {
   async isSave(receiptLogData: Verifying): Promise<boolean> {
@@ -20,7 +21,7 @@ export default class VerifyingProcessors implements IVerifyingProcessor {
       const saveVerifying = new VerifyingModel(receiptLogData);
       await saveVerifying
         .save()
-        .then((res) => console.log(`mongodb save  ${VerifyingModel.modelName} ${JSON.stringify(res)}`));
+        .then((res) => log4js.info(`mongodb save  ${VerifyingModel.modelName} ${JSON.stringify(res)}`));
 
       // save to mysql
       const verifyingRepository = await getTRepository(VerifyingEntity);
@@ -29,10 +30,10 @@ export default class VerifyingProcessors implements IVerifyingProcessor {
         receiptLogData.versionId = versionId;
         await verifyingRepository
           .save(receiptLogData as unknown as VerifyingEntity)
-          .then((res) => console.log(`mysql save ${verifyingRepository.metadata.tableName}\n${JSON.stringify(res)}`));
+          .then((res) => log4js.info(`mysql save ${verifyingRepository.metadata.tableName}\n${JSON.stringify(res)}`));
       }
     } catch (error) {
-      console.log("The error occurs in saving Verifying.");
+      log4js.error("The error occurs in saving Verifying.");
       throw new Error(error + "");
     }
   }

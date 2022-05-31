@@ -43,7 +43,6 @@ class Contract {
           eventInputs: abiItem.inputs,
           eventName: abiItem.name,
         };
-        // console.log(`${contractEvent.eventName}----${contractEvent.eventHash}`);
         eventItemMap.set(eventHashKey, contractEvent);
       }
     }
