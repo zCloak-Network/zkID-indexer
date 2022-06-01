@@ -1,8 +1,7 @@
 import Web3 from "web3";
 import { Log } from "web3-core";
 import { IContract } from "../contract/types";
-import { saveBestBlockNumber } from "../database/util";
-import { saveMysqlBlockNumber } from "../src/util";
+import { saveMysqlBlockNumber } from "../util";
 import { decodeTransactionReceiptLogs } from "./taskUtils";
 import * as log4js from "../utils/log4js";
 
@@ -32,7 +31,6 @@ export async function batchTask(w3: Web3, startBlock: number, endBlock: number, 
     }
     log4js.info(`finished at [${endBlock}]`);
     log4js.info(`finished timestamp: ${new Date().getTime()}`);
-    await saveBestBlockNumber(endBlock + 1);
     await saveMysqlBlockNumber(endBlock + 1);
   } else {
     log4js.info("waiting new blocks");
@@ -47,7 +45,6 @@ const getTransactionReceiptLogs = async (
 ): Promise<Array<Log>> => {
   try {
     log4js.info(`scan [${from}] ---> [${to}]`);
-
     return await w3.eth.getPastLogs({
       fromBlock: from,
       toBlock: to,
@@ -55,7 +52,6 @@ const getTransactionReceiptLogs = async (
     });
   } catch (error) {
     log4js.error("Error occurs in batchTasks getTransactionReceiptLogs");
-    await saveBestBlockNumber(from);
     await saveMysqlBlockNumber(from);
     throw new Error(error + "");
   }

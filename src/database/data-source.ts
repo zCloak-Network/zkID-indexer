@@ -11,7 +11,7 @@ export function getIndexerDataSource(mysqlConfig) {
     database: mysqlConfig.database,
     synchronize: false,
     logging: false,
-    entities: ["src/entity/*.ts"],
+    entities: ["src/database/entity/*.ts"],
     migrations: [],
     subscribers: [],
   });

@@ -1,26 +1,38 @@
-import { DataSource } from "typeorm";
-import { getIndexerDataSource } from "./data-source";
-import * as log4js from "../utils/log4js";
+import Web3 from "web3";
+import { batchTask } from "./tasks/batchTask";
+import contractsMap from "./contract";
+import { IContract } from "./contract/types";
+import { dealNetworkError, dealOtherError, initTask, loadConfigFile, sendToBot, sleep } from "./tasks/taskUtils";
+import * as log4js from "./utils/log4js";
+import { getLastBestBlockPointer } from "./controllers/BlockController";
 
-let IndexerDataSource: DataSource;
+let netErrorCount = 0;
+let timeout = 5000;
 
-export async function initDataSource(mysqlConfig: any) {
-  IndexerDataSource = getIndexerDataSource(mysqlConfig);
-  !IndexerDataSource.isInitialized && (await IndexerDataSource.initialize());
-  log4js.info("MySQL Connected");
-}
+async function main() {
+  const config = loadConfigFile(process.argv, __dirname);
+  try {
+    const w3 = new Web3(new Web3.providers.HttpProvider(config.network, { timeout: timeout }));
+    const allContractEvents: Array<IContract> = await contractsMap(config);
+    await initTask(config);
+    while (true) {
+      const lastBlock = await getLastBestBlockPointer();
+      const taskStartBlock = lastBlock === 0 ? config.startBlock : lastBlock;
+      const taskEndBlock = await w3.eth.getBlockNumber();
+      await batchTask(w3, taskStartBlock, taskEndBlock, allContractEvents);
+      await sleep(1 * 1000);
+    }
+  } catch (error) {
+    const lastBlock = await getLastBestBlockPointer();
+    log4js.error(`error block ${lastBlock}`);
 
-export async function destroyDataSource() {
-  IndexerDataSource.isInitialized && (await IndexerDataSource.destroy());
-}
-
-export async function getTRepository(T) {
-  checkInit();
-  return await IndexerDataSource.getRepository(T);
-}
-
-function checkInit() {
-  if (!IndexerDataSource.isInitialized) {
-    throw new Error("Init database first!");
+    if ((error + "").search("Invalid JSON RPC response") !== -1) {
+      netErrorCount = await dealNetworkError(error, config, lastBlock, netErrorCount);
+      await sleep(5 * 1000);
+      await main();
+    } else {
+      await dealOtherError(error, lastBlock, config);
+    }
   }
 }
+main();

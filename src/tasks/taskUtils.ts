@@ -3,13 +3,12 @@ import { Log } from "web3-core";
 import { checkConfig, getTopicAbi, getTopicName, getVersionContract } from "../contract/util";
 import { IContract } from "../contract/types";
 import { AbiInput } from "web3-utils";
-import { botMessageFormat, IBotMessageCard } from "../bot/bot";
+import { botMessageFormat, IBotMessageCard } from "../utils/bot";
 import axios from "axios";
-import { getProcessors } from "../database/processors";
-import { getVersionId, addNewVersion } from "../src/util";
+import { getProcessors } from "../processors";
+import { getVersionId, addNewVersion } from "../util";
 import * as fs from "fs";
-import { initDataSource } from "../src";
-import { initMongoDB } from "../database/init";
+import { initDataSource } from "../database";
 import * as log4js from "../utils/log4js";
 
 export async function decodeTransactionReceiptLogs(w3: Web3, logsArray: Log[], allContractEvents: Array<IContract>) {
@@ -51,7 +50,7 @@ async function decodeTransactionReceiptLog(
   const processors = getProcessors();
   processors.forEach(async (processor) => {
     processor.isAdapt(topicName) &&
-      (await processor.isSave(decodeData)) &&
+      (await processor.isSave(decodeData, versionId)) &&
       (await processor.save(decodeData, versionId, versionContract));
   });
 }
@@ -107,18 +106,16 @@ export async function dealOtherError(error: any, lastBlock: number, config: any)
 export async function initTask(config) {
   checkConfig(config);
   await initDataSource(config.mysql);
-  await initMongoDB(config);
-  // await addNewVersion(w3, config.contracts);
 }
 
 export function loadConfigFile(argv: Array<string>, path: string): any {
   checkCommand(argv);
   if (argv[3] === "dev" || argv[3] === "prod") {
-    const configFilePath = `${path}/config.${argv[3]}.json`;
+    const configFilePath = `${path}/configs/config.${argv[3]}.json`;
     if (fs.existsSync(configFilePath)) {
       return JSON.parse(fs.readFileSync(configFilePath, "utf8"));
     } else {
-      log4js.error(`Make sure you have the config.${argv[3]}.json file!`)
+      log4js.error(`Make sure you have the config.${argv[3]}.json file!`);
       process.exit(1);
     }
   }
@@ -126,7 +123,7 @@ export function loadConfigFile(argv: Array<string>, path: string): any {
 
 function checkCommand(argv: Array<string>) {
   if (argv.length !== 4) {
-    log4js.error("Please use the correct command to start!")
+    log4js.error("Please use the correct command to start!");
     process.exit(1);
   }
 }

@@ -1,7 +1,7 @@
 import Web3 from "web3";
-import { getTRepository } from ".";
-import { BlockRecordEntity } from "./entity/BlockRecord";
-import { ContractConfigEntity } from "./entity/ContractConfig";
+import { getTRepository } from "./database";
+import { BlockRecordEntity } from "./database/entity/BlockRecord";
+import { ContractConfigEntity } from "./database/entity/ContractConfig";
 
 export async function getVersionId(chainId: number, contractAddress: string): Promise<number | null> {
   const contractConfigRepository = await getTRepository(ContractConfigEntity);

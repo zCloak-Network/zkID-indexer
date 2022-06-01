@@ -1,27 +1,27 @@
 {
-   "name": "zCloak-indexer",
-   "version": "1.0.0",
-   "main": "index.ts",
-   "license": "MIT",
-   "devDependencies": {
-      "@types/node": "^16.11.10",
-      "ts-node": "10.7.0",
-      "ts-node-dev": "^1.1.8",
-      "typescript": "4.5.2"
-   },
-   "dependencies": {
-      "axios": "^0.26.1",
-      "log4js": "^6.5.2",
-      "mongoose": "^6.1.4",
-      "mysql": "^2.18.1",
-      "pg": "^8.4.0",
-      "reflect-metadata": "^0.1.13",
-      "typeorm": "0.3.6",
-      "web3": "^1.6.1"
-   },
-   "scripts": {
-      "start": "ts-node index.ts --config prod",
-      "dev": "ts-node index.ts --config dev",
-      "typeorm": "typeorm-ts-node-commonjs"
-   }
+  "name": "zCloak-indexer",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^16.11.10",
+    "ts-node": "10.7.0",
+    "ts-node-dev": "^1.1.8",
+    "typescript": "4.5.2"
+  },
+  "dependencies": {
+    "axios": "^0.26.1",
+    "log4js": "^6.5.2",
+    "mongoose": "^6.1.4",
+    "mysql": "^2.18.1",
+    "pg": "^8.4.0",
+    "reflect-metadata": "^0.1.13",
+    "typeorm": "0.3.6",
+    "web3": "^1.6.1"
+  },
+  "scripts": {
+    "start": "ts-node src/index.ts --config prod",
+    "dev": "ts-node src/index.ts --config dev",
+    "typeorm": "typeorm-ts-node-commonjs"
+  }
 }

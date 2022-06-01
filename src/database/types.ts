@@ -1,5 +1,4 @@
 import { Model } from "mongoose";
-import { AddProofModel } from "./init";
 export interface AddProof {
   blockNumber?: number;
   blockHash?: string;
