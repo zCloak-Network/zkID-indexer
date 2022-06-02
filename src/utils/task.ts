@@ -9,6 +9,7 @@ import { initDataSource } from "../database";
 import * as log4js from "./log4js";
 import { saveBlockPointer } from "../controllers/BlockController";
 import { getVersionId } from "../controllers/ContractConfigController";
+import path from "path";
 
 export async function getTransactionReceiptLogs(
   w3: Web3,
@@ -87,10 +88,10 @@ export async function initTask(config) {
   await initDataSource(config.mysql);
 }
 
-export function loadConfigFile(argv: Array<string>, path: string): any {
+export function loadConfigFile(argv: Array<string>): any {
   checkCommand(argv);
   if (argv[3] === "dev" || argv[3] === "prod") {
-    const configFilePath = `${path}/configs/config.${argv[3]}.json`;
+    const configFilePath = `${path.resolve(__dirname, "../")}/configs/config.${argv[3]}.json`;
     if (fs.existsSync(configFilePath)) {
       return JSON.parse(fs.readFileSync(configFilePath, "utf8"));
     } else {
@@ -111,4 +112,3 @@ export enum BLOCKTYPE {
   BEST = "best",
   FINALIZED = "finalized",
 }
-

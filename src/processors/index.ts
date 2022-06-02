@@ -1,6 +1,6 @@
 import AddProofProcessors from "./AddProofProcessors";
 import VerifyingProcessors from "./VerifyingProcessors";
-import MintPoapProcessors from "./MintPoapProcessors";
+import MintPoapProcessors from "./PoapProcessors";
 import CanonicalProcessors from "./CanonicalProcessors";
 import { IProcessor } from "./processorsInterface";
 

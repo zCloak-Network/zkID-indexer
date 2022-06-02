@@ -12,7 +12,7 @@ let netErrorCount = 0;
 let timeout = 5000;
 
 async function main() {
-  const config = loadConfigFile(process.argv, __dirname);
+  const config = loadConfigFile(process.argv);
   try {
     const w3 = new Web3(new Web3.providers.HttpProvider(config.network, { timeout: timeout }));
     const allContractEvents: Array<IContract> = await contractsMap(config);

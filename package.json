@@ -21,6 +21,7 @@
   "scripts": {
     "start": "ts-node src/index.ts --config prod",
     "dev": "ts-node src/index.ts --config dev",
+    "start:delete": "ts-node src/tasks/cleanTask.ts --config dev",
     "typeorm": "typeorm-ts-node-commonjs"
   }
 }
