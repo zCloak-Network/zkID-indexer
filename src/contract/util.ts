@@ -34,7 +34,7 @@ function configErrorExit(message: string) {
 export function checkConfig(config: any) {
   !config.network.length && configErrorExit("Check your network configuration in config.json!");
   !config.contracts.length && configErrorExit("Check your contracts configuration in config.json!");
-  !config.mongodb.url && configErrorExit("Check your mongodb configuration in config.json!");
+  !config.mysql.host && configErrorExit("Check your contracts configuration in config.json!");
   !config.startBlock.toString().length && configErrorExit("Check your startBlock configuration in config.json!");
   !config.monitorEvents.length && configErrorExit("Check your monitorEvents configuration in config.json!");
 }

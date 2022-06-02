@@ -2,11 +2,6 @@
   "name": "zk",
   "network": "http://127.0.0.1:40001",
   "startBlock": 2050483,
-  "mongodb": {
-    "url": "mongodb://127.0.0.1:27017/zCloak",
-    "user": "",
-    "password": ""
-  },
   "mysql": {
     "host": "localhost",
     "port": 3306,

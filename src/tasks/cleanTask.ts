@@ -3,9 +3,8 @@ import { deleteCanonical } from "../controllers/CanonicalController";
 import { deletePoaps } from "../controllers/PoapController";
 import { deleteProofs } from "../controllers/ProofController";
 import { deleteVerifyings } from "../controllers/VerifyingController";
-import { initDataSource } from "../database";
 import { BLOCKTYPE, initTask, loadConfigFile, sleep } from "../utils/task";
-import path from "path";
+import * as log4js from "../utils/log4js";
 
 async function clean() {
   while (true) {
@@ -14,6 +13,7 @@ async function clean() {
     await deleteVerifyings(lastFinalizedPointer, BLOCKTYPE.BEST);
     await deleteCanonical(lastFinalizedPointer, BLOCKTYPE.BEST);
     await deletePoaps(lastFinalizedPointer, BLOCKTYPE.BEST);
+    log4js.info(`Deleted data before ${lastFinalizedPointer} and timestamp is ${new Date().getTime()}.`);
     await sleep(12 * 1000);
   }
 }
