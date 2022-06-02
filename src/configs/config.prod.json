@@ -1,0 +1,31 @@
+{
+  "name": "",
+  "network": "",
+  "startBlock": 0,
+  "mysql": {
+    "host": "",
+    "port": 3306,
+    "database": "",
+    "username": "",
+    "password": ""
+  },
+  "contracts": [
+    {
+      "contractName": "",
+      "contractAddress": "",
+      "abiFile": ""
+    },
+    {
+      "contractName": "",
+      "contractAddress": "",
+      "abiFile": ""
+    },
+    {
+      "contractName": "",
+      "contractAddress": "",
+      "abiFile": ""
+    }
+  ],
+  "monitorEvents": ["", "", "", ""],
+  "bot_url": ""
+}

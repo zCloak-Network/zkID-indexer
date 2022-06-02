@@ -12,12 +12,11 @@ yarn install
 
 ### configuration
 
-The configuration file is config.dev.json or config.prod.json in the root directory.
+The configuration file is config.dev.json or config.prod.json in the `src/configs` directory.
 
 - name: zkID-indexer.
 - network: The blockchain network that needs to be scanned, using the rpc method to connect.
 - startBlock: Which block to start with
-- mongodb: Mongodb configuration
 - mysql: MySQL configuration
 - contracts: Contract information that needs to be monitored
   - contractName
@@ -31,11 +30,6 @@ The configuration file is config.dev.json or config.prod.json in the root direct
   "name": "",
   "network": "",
   "startBlock": 0,
-  "mongodb": {
-    "url": "",
-    "user": "",
-    "password": ""
-  },
   "mysql": {
     "host": "",
     "port": 3306,
@@ -66,4 +60,6 @@ yarn start
 
 ```
 yarn dev
+
+yarn start:delete
 ```
