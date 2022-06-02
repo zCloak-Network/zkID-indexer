@@ -1,3 +1,17 @@
+import axios from "axios";
+import * as log4js from "./log4js";
+
+export async function sendToBot(url: string, data: IBotMessageCard) {
+  await axios
+    .post(url, data)
+    .then((res) => {
+      log4js.info(res.data);
+    })
+    .catch((error) => {
+      log4js.error(error);
+    });
+}
+
 export const botMessageFormat = (blockNumber: string, message: string) => {
   const botMessage: IBotMessageCard = {
     chat_id: "oc_abcdefg1234567890",

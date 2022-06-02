@@ -4,7 +4,7 @@ import MintPoapProcessors from "./MintPoapProcessors";
 import CanonicalProcessors from "./CanonicalProcessors";
 import { IProcessor } from "./processorsInterface";
 
-export function getProcessors(): Array<IProcessor<any>> {
+function getProcessors(): Array<IProcessor<any>> {
   const processors: Array<IProcessor<any>> = [];
 
   processors.push(new AddProofProcessors());
@@ -14,3 +14,5 @@ export function getProcessors(): Array<IProcessor<any>> {
 
   return processors;
 }
+
+export default getProcessors();

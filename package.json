@@ -12,7 +12,6 @@
   "dependencies": {
     "axios": "^0.26.1",
     "log4js": "^6.5.2",
-    "mongoose": "^6.1.4",
     "mysql": "^2.18.1",
     "pg": "^8.4.0",
     "reflect-metadata": "^0.1.13",

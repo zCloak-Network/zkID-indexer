@@ -1,7 +1,5 @@
 import BN from "bn.js";
-import { Model } from "mongoose";
 import { AbiInput, AbiItem } from "web3-utils";
-import { TModel } from "../database/types";
 
 export interface IContractInfo {
   abi: IAbi[];
@@ -53,5 +51,4 @@ export interface IContractEvent {
 
 export interface IModelAndInput {
   input: AbiInput[];
-  model: TModel;
 }

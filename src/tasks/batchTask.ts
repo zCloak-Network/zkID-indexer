@@ -1,58 +1,62 @@
 import Web3 from "web3";
-import { Log } from "web3-core";
 import { IContract } from "../contract/types";
-import { saveMysqlBlockNumber } from "../util";
-import { decodeTransactionReceiptLogs } from "./taskUtils";
+import { BLOCKTYPE, decodeTransactionReceiptLogs, getTransactionReceiptLogs } from "../utils/task";
 import * as log4js from "../utils/log4js";
+import { getLastBlockPointer, saveBlockPointer } from "../controllers/BlockController";
+import { getFinalizedBlockNumber } from "../utils/web3Rpc";
 
-export async function batchTask(w3: Web3, startBlock: number, endBlock: number, allContractEvents: Array<IContract>) {
+export async function batchTask(
+  w3: Web3,
+  startBlock: number,
+  endBlock: number,
+  allContractEvents: Array<IContract>,
+  blockType: string
+) {
   const blockLimit = 10;
   if (startBlock <= endBlock) {
     log4js.info(`all tasks [${startBlock}] ---> [${endBlock}] --- best:[${endBlock}]`);
-    for (let i = startBlock; i <= endBlock; ) {
+    for (let pointer = startBlock; pointer <= endBlock; ) {
       let data: Array<any>;
-      if (i + blockLimit >= endBlock) {
+      if (pointer + blockLimit >= endBlock) {
         data = await getTransactionReceiptLogs(
           w3,
-          i,
+          pointer,
           endBlock,
-          allContractEvents.map((item) => item.address)
+          allContractEvents.map((item) => item.address),
+          blockType
         );
       } else {
         data = await getTransactionReceiptLogs(
           w3,
-          i,
-          i + blockLimit - 1,
-          allContractEvents.map((item) => item.address)
+          pointer,
+          pointer + blockLimit - 1,
+          allContractEvents.map((item) => item.address),
+          blockType
         );
       }
-      data.length && (await decodeTransactionReceiptLogs(w3, data, allContractEvents));
-      i = i + blockLimit;
+      data.length && (await decodeTransactionReceiptLogs(w3, data, allContractEvents, blockType));
+      pointer = pointer + blockLimit;
     }
     log4js.info(`finished at [${endBlock}]`);
     log4js.info(`finished timestamp: ${new Date().getTime()}`);
-    await saveMysqlBlockNumber(endBlock + 1);
+    // TODO remove
+    // await saveMysqlBlockNumber(endBlock + 1);
+    await saveBlockPointer(endBlock + 1, blockType);
   } else {
     log4js.info("waiting new blocks");
   }
 }
 
-const getTransactionReceiptLogs = async (
-  w3: Web3,
-  from: number,
-  to: number,
-  addressArr: Array<string>
-): Promise<Array<Log>> => {
-  try {
-    log4js.info(`scan [${from}] ---> [${to}]`);
-    return await w3.eth.getPastLogs({
-      fromBlock: from,
-      toBlock: to,
-      address: addressArr,
-    });
-  } catch (error) {
-    log4js.error("Error occurs in batchTasks getTransactionReceiptLogs");
-    await saveMysqlBlockNumber(from);
-    throw new Error(error + "");
-  }
-};
+export async function scanBest(w3: Web3, allContractEvents: Array<IContract>, config: any) {
+  const lastPointer = await getLastBlockPointer(BLOCKTYPE.BEST);
+  const startPointer = lastPointer === 0 ? config.startBlock : lastPointer;
+  const endPointer = await w3.eth.getBlockNumber();
+  await batchTask(w3, startPointer, endPointer, allContractEvents, BLOCKTYPE.BEST);
+}
+
+export async function scanFinalized(w3: Web3, allContractEvents: Array<IContract>, config: any) {
+  const lastPointer = await getLastBlockPointer(BLOCKTYPE.FINALIZED);
+  const startPointer = lastPointer === 0 ? config.startBlock : lastPointer;
+  const endPointer = await getFinalizedBlockNumber(w3.currentProvider);
+  await batchTask(w3, startPointer, endPointer, allContractEvents, BLOCKTYPE.FINALIZED);
+}

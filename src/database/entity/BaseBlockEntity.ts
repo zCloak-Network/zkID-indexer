@@ -1,22 +1,25 @@
-import { Column, CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 export abstract class BaseBlockEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({name: 'block_number'})
+  @Column({ name: "block_number" })
   blockNumber: number;
 
-  @Column({name: 'block_hash'})
+  @Column({ name: "block_hash" })
   blockHash: string;
 
-  @Column({name: 'block_time'})
+  @Column({ name: "block_type" })
+  blockType: string;
+
+  @Column({ name: "block_time" })
   blockTime: number;
 
-  @Column({name: 'transaction_hash'})
+  @Column({ name: "transaction_hash" })
   transactionHash: string;
 
-  @Column({name: 'version_id'})
+  @Column({ name: "version_id" })
   versionId: number;
 
   // ===default column
