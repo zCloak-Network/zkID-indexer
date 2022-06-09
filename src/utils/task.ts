@@ -72,10 +72,20 @@ async function decodeTransactionReceiptLog(
   decodeData.blockTime = blockInfo.timestamp;
 
   const versionId = await getVersionId(versionChainId, versionContract);
+
   processors.forEach(async (processor) => {
-    processor.isAdapt(topicName) &&
-      (await processor.isSave(decodeData, versionId, blockType)) &&
-      (await processor.save(decodeData, versionId, blockType));
+    switch (blockType) {
+      case BLOCKTYPE.BEST:
+        processor.isAdapt(topicName) &&
+          !(await processor.isExisted(decodeData.transactionHash, versionId, blockType)) &&
+          (await processor.saveBest(decodeData, versionId, blockType));
+        break;
+      case BLOCKTYPE.FINALIZED:
+        processor.isAdapt(topicName) &&
+          (await processor.isExisted(decodeData.transactionHash, versionId, BLOCKTYPE.BEST)) &&
+          (await processor.updateFinalized(decodeData.transactionHash, versionId));
+        break;
+    }
   });
 }
 

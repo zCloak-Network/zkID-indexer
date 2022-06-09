@@ -11,7 +11,7 @@
  Target Server Version : 50738
  File Encoding         : 65001
 
- Date: 26/05/2022 10:42:57
+ Date: 08/06/2022 10:22:40
 */
 
 SET NAMES utf8mb4;
@@ -28,7 +28,7 @@ CREATE TABLE `block_record` (
   `createTime` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
   `updateTime` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Table structure for contract_config
@@ -51,6 +51,7 @@ CREATE TABLE `raw_scan_canonical` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `block_number` int(11) NOT NULL,
   `block_hash` varchar(255) NOT NULL,
+  `block_type` varchar(255) NOT NULL,
   `block_time` int(11) NOT NULL,
   `transaction_hash` varchar(255) NOT NULL,
   `version_id` int(11) NOT NULL,
@@ -60,7 +61,7 @@ CREATE TABLE `raw_scan_canonical` (
   `request_hash` varchar(255) NOT NULL,
   `output_hash` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Table structure for raw_scan_poap
@@ -70,6 +71,7 @@ CREATE TABLE `raw_scan_poap` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `block_number` int(11) NOT NULL,
   `block_hash` varchar(255) NOT NULL,
+  `block_type` varchar(255) NOT NULL,
   `block_time` int(11) NOT NULL,
   `transaction_hash` varchar(255) NOT NULL,
   `version_id` int(11) NOT NULL,
@@ -79,7 +81,7 @@ CREATE TABLE `raw_scan_poap` (
   `who` varchar(255) NOT NULL,
   `nft_id` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Table structure for raw_scan_proof
@@ -89,6 +91,7 @@ CREATE TABLE `raw_scan_proof` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `block_number` int(11) NOT NULL,
   `block_hash` varchar(255) NOT NULL,
+  `block_type` varchar(255) NOT NULL,
   `block_time` int(11) NOT NULL,
   `transaction_hash` varchar(255) NOT NULL,
   `version_id` int(11) NOT NULL,
@@ -104,7 +107,7 @@ CREATE TABLE `raw_scan_proof` (
   `root_hash` varchar(255) NOT NULL,
   `expect_result` json NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Table structure for raw_scan_verifying
@@ -114,6 +117,7 @@ CREATE TABLE `raw_scan_verifying` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `block_number` int(11) NOT NULL,
   `block_hash` varchar(255) NOT NULL,
+  `block_type` varchar(255) NOT NULL,
   `block_time` int(11) NOT NULL,
   `transaction_hash` varchar(255) NOT NULL,
   `version_id` int(11) NOT NULL,
@@ -128,6 +132,6 @@ CREATE TABLE `raw_scan_verifying` (
   `is_passed` tinyint(4) NOT NULL,
   `calc_result` json NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8mb4;
 
 SET FOREIGN_KEY_CHECKS = 1;

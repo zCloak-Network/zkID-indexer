@@ -14,7 +14,7 @@ async function clean() {
     await deleteCanonical(lastFinalizedPointer, BLOCKTYPE.BEST);
     await deletePoaps(lastFinalizedPointer, BLOCKTYPE.BEST);
     log4js.info(`Deleted data before ${lastFinalizedPointer} and timestamp is ${new Date().getTime()}.`);
-    await sleep(12 * 1000);
+    await sleep(3600 * 2 * 1000);
   }
 }
 

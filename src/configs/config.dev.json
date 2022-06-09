@@ -1,6 +1,6 @@
 {
   "name": "zk",
-  "network": "http://45.77.6.156:40001",
+  "network": "https://rpc.api.moonbase.moonbeam.network",
   "startBlock": 2050483,
   "mysql": {
     "host": "localhost",
