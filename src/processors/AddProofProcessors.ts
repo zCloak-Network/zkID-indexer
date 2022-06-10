@@ -30,7 +30,7 @@ export default class ProofProcessors implements IProofProcessor {
       const proofRepository = await getTRepository(ProofEntity);
       receiptLogData.versionId = versionId;
       receiptLogData.blockType = blockType;
-      receiptLogData.dataOwner = receiptLogData.dataOwner.toLowerCase();
+      receiptLogData.dataOwnerHex = receiptLogData.dataOwner.toLowerCase();
       await proofRepository
         .save(receiptLogData as unknown as ProofEntity)
         .then((res) => log4js.info(`mysql save ${proofRepository.metadata.tableName} ${JSON.stringify(res)}`));

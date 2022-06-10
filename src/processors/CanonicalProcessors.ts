@@ -28,7 +28,7 @@ export default class CanonicalProcessors implements ICanonicalProcessor {
       const canonicalRepository = await getTRepository(CanonicalEntity);
       receiptLogData.versionId = versionId;
       receiptLogData.blockType = blockType;
-      receiptLogData.cOwner = receiptLogData.cOwner.toLowerCase();
+      receiptLogData.cOwnerHex = receiptLogData.cOwner.toLowerCase();
       await canonicalRepository
         .save(receiptLogData as unknown as CanonicalEntity)
         .then((res) => log4js.info(`mysql save ${canonicalRepository.metadata.tableName} ${JSON.stringify(res)}`));

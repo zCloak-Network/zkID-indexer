@@ -30,7 +30,7 @@ export default class MintPoapProcessors implements IMintPoapProcessor {
       const PoapRepository = await getTRepository(PoapEntity);
       receiptLogData.versionId = versionId;
       receiptLogData.blockType = blockType;
-      receiptLogData.who = receiptLogData.who.toLowerCase();
+      receiptLogData.whoHex = receiptLogData.who.toLowerCase();
       await PoapRepository.save(receiptLogData as unknown as PoapEntity).then((res) =>
         log4js.info(`mysql save ${PoapRepository.metadata.tableName}\n${JSON.stringify(res)}`)
       );

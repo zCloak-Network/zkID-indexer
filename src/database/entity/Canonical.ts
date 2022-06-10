@@ -6,6 +6,9 @@ export class CanonicalEntity extends BaseBlockEntity {
   @Column({ name: "data_owner" })
   cOwner: string;
 
+  @Column({ name: "data_owner_hex" })
+  cOwnerHex: string;
+
   @Column({ name: "request_hash" })
   requestHash: string;
 
