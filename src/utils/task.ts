@@ -39,9 +39,7 @@ export async function decodeTransactionReceiptLogs(
   blockType: string
 ) {
   try {
-    log4js.info(
-      `❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️${logsArray.length} pieces of data are waiting to be processed.❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️`
-    );
+    log4js.info(`❤️ ${logsArray.length} pieces of data are waiting to be processed. ❤️`);
     for (let i = 0; i < logsArray.length; i++) {
       const item = logsArray[i];
       const topicInput = getTopicAbi(allContractEvents, item.topics[0]);
@@ -52,9 +50,7 @@ export async function decodeTransactionReceiptLogs(
         versionContract &&
         (await decodeTransactionReceiptLog(w3, topicInput, topicName, item, versionContract, blockType));
     }
-    log4js.info(
-      `❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️${logsArray.length} pieces of data have been processed.❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️`
-    );
+    log4js.info(`❤️ ${logsArray.length} pieces of data have been processed. ❤️`);
   } catch (error) {
     log4js.error("Error occurs in decodeTransactionReceiptLogs");
     throw new Error(error + "");
