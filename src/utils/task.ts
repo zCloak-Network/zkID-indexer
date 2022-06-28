@@ -39,14 +39,14 @@ export async function decodeTransactionReceiptLogs(
   blockType: string
 ) {
   try {
-    logsArray.forEach((item) => {
+    logsArray.forEach(async (item) => {
       const topicInput = getTopicAbi(allContractEvents, item.topics[0]);
       const topicName = getTopicName(allContractEvents, item.topics[0]);
       const versionContract = getVersionContract(allContractEvents, item.topics[0]);
       topicInput &&
         topicName &&
         versionContract &&
-        decodeTransactionReceiptLog(w3, topicInput, topicName, item, versionContract, blockType);
+        (await decodeTransactionReceiptLog(w3, topicInput, topicName, item, versionContract, blockType));
     });
   } catch (error) {
     log4js.error("Error occurs in decodeTransactionReceiptLogs");
