@@ -39,7 +39,11 @@ export async function decodeTransactionReceiptLogs(
   blockType: string
 ) {
   try {
-    logsArray.forEach(async (item) => {
+    log4js.info(
+      `❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️${logsArray.length} pieces of data are waiting to be processed.❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️`
+    );
+    for (let i = 0; i < logsArray.length; i++) {
+      const item = logsArray[i];
       const topicInput = getTopicAbi(allContractEvents, item.topics[0]);
       const topicName = getTopicName(allContractEvents, item.topics[0]);
       const versionContract = getVersionContract(allContractEvents, item.topics[0]);
@@ -47,7 +51,10 @@ export async function decodeTransactionReceiptLogs(
         topicName &&
         versionContract &&
         (await decodeTransactionReceiptLog(w3, topicInput, topicName, item, versionContract, blockType));
-    });
+    }
+    log4js.info(
+      `❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️${logsArray.length} pieces of data have been processed.❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️`
+    );
   } catch (error) {
     log4js.error("Error occurs in decodeTransactionReceiptLogs");
     throw new Error(error + "");
@@ -73,7 +80,8 @@ async function decodeTransactionReceiptLog(
 
   const versionId = await getVersionId(versionChainId, versionContract);
 
-  processors.forEach(async (processor) => {
+  for (let i = 0; i < processors.length; i++) {
+    const processor = processors[i];
     switch (blockType) {
       case BLOCKTYPE.BEST:
         processor.isAdapt(topicName) &&
@@ -86,7 +94,7 @@ async function decodeTransactionReceiptLog(
           (await processor.updateFinalized(decodeData.transactionHash, versionId));
         break;
     }
-  });
+  }
 }
 
 export async function sleep(ms: number) {
