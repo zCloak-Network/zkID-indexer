@@ -21,7 +21,11 @@
   "scripts": {
     "start": "ts-node src/index.ts --config prod",
     "dev": "ts-node src/index.ts --config dev",
-    "start:delete": "ts-node src/tasks/cleanTask.ts --config dev",
-    "typeorm": "typeorm-ts-node-commonjs"
+    "start:delete-dev": "ts-node src/tasks/cleanTask.ts --config dev",
+    "start:delete-prod": "ts-node src/tasks/cleanTask.ts --config prod",
+    "start:update-address-dev": "ts-node src/scripts/updateAddress.ts --config dev",
+    "start:update-address-prod": "ts-node src/scripts/updateAddress.ts --config prod",
+    "start:update-block-type-dev": "ts-node src/scripts/updateBlockType.ts --config dev",
+    "start:update-block-type-prod": "ts-node src/scripts/updateBlockType.ts --config prod"
   }
 }

@@ -6,6 +6,9 @@ export class ProofEntity extends BaseBlockEntity {
   @Column({ name: "data_owner" })
   dataOwner: string;
 
+  @Column({ name: "data_owner_hex" })
+  dataOwnerHex: string;
+
   @Column({ name: "attester" })
   attester: string;
 

@@ -28,7 +28,7 @@ export default class VerifyingProcessors implements IVerifyingProcessor {
       const verifyingRepository = await getTRepository(VerifyingEntity);
       receiptLogData.versionId = versionId;
       receiptLogData.blockType = blockType;
-      receiptLogData.cOwner = receiptLogData.cOwner.toLowerCase();
+      receiptLogData.cOwnerHex = receiptLogData.cOwner.toLowerCase();
       await verifyingRepository
         .save(receiptLogData as unknown as VerifyingEntity)
         .then((res) => log4js.info(`mysql save ${verifyingRepository.metadata.tableName}\n${JSON.stringify(res)}`));
