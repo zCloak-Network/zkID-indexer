@@ -1,5 +1,5 @@
 {
-  "name": "zk",
+  "name": "zkID-local",
   "network": "http://127.0.0.1:40001",
   "startBlock": 2050483,
   "mysql": {

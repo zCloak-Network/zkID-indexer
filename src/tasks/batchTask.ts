@@ -4,6 +4,7 @@ import { BLOCKTYPE, decodeTransactionReceiptLogs, getTransactionReceiptLogs } fr
 import * as log4js from "../utils/log4js";
 import { getLastBlockPointer, saveBlockPointer } from "../controllers/BlockController";
 import { getFinalizedBlockNumber } from "../utils/web3Rpc";
+import { gaugeSet, gaugeInc } from "../utils/prom";
 
 export async function batchTask(
   w3: Web3,
@@ -15,6 +16,7 @@ export async function batchTask(
   const blockLimit = 10;
   if (startBlock <= endBlock) {
     log4js.info(`all tasks [${startBlock}] ---> [${endBlock}] --- best:[${endBlock}]`);
+    gaugeSet(blockType, startBlock);
     for (let pointer = startBlock; pointer <= endBlock; ) {
       let data: Array<any>;
       if (pointer + blockLimit >= endBlock) {
@@ -25,6 +27,7 @@ export async function batchTask(
           allContractEvents.map((item) => item.address),
           blockType
         );
+        gaugeSet(blockType, endBlock);
       } else {
         data = await getTransactionReceiptLogs(
           w3,
@@ -33,6 +36,7 @@ export async function batchTask(
           allContractEvents.map((item) => item.address),
           blockType
         );
+        gaugeInc(blockType, blockLimit);
       }
       data.length && (await decodeTransactionReceiptLogs(w3, data, allContractEvents, blockType));
       pointer = pointer + blockLimit;
