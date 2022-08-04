@@ -32,9 +32,13 @@ const requestPromise = async (web3Provider, method, params) => {
 };
 
 export async function getFinalizedBlockNumber(web3Provider): Promise<number> {
-  const finalizedHeadHash = (await customWeb3Request(web3Provider, "chain_getFinalizedHead", [])) as any;
-  const finalizedBlockHeader = (await customWeb3Request(web3Provider, "chain_getHeader", [
-    finalizedHeadHash.result,
-  ])) as any;
-  return parseInt(finalizedBlockHeader.result.number, 16);
+  try {
+    const finalizedHeadHash = (await customWeb3Request(web3Provider, "chain_getFinalizedHead", [])) as any;
+    const finalizedBlockHeader = (await customWeb3Request(web3Provider, "chain_getHeader", [
+      finalizedHeadHash.result,
+    ])) as any;
+    return parseInt(finalizedBlockHeader.result.number, 16);
+  } catch (error) {
+    throw new Error(`Error in getFinalizedBlockNumber\n ${error}`);
+  }
 }
