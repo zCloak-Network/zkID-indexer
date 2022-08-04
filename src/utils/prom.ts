@@ -3,7 +3,7 @@ import http from "http";
 import url from "url";
 import { BLOCKTYPE } from "./task";
 
-const PROM_PORT = 9901;
+const PROM_PORT = 9944;
 const register = new client.Registry();
 
 register.setDefaultLabels({
