@@ -21,8 +21,9 @@ export async function getLastBlockPointer(blockType: string) {
       blockType: blockType,
     },
     order: { createTime: "DESC" },
+    take: 1,
   })) as BlockRecordEntity[];
   const endTime = new Date().getTime();
-  log4js.info(`query block_number used time: ${endTime - startTime}ms`);
+  log4js.info(`block_number size: ${blockNumberRecords.length},query cost: ${endTime - startTime}ms`);
   return blockNumberRecords.length === 0 ? 0 : blockNumberRecords[0].blockNumber;
 }
