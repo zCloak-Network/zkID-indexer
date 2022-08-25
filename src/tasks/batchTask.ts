@@ -46,8 +46,6 @@ export async function batchTask(
     // TODO remove
     // await saveMysqlBlockNumber(endBlock + 1);
     await saveBlockPointer(endBlock + 1, blockType);
-  } else {
-    log4js.info("waiting new blocks");
   }
 }
 
