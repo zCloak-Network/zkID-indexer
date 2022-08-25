@@ -1,5 +1,6 @@
 import { getTRepository } from "../database";
 import { BlockRecordEntity } from "../database/entity/BlockRecord";
+import * as log4js from "../utils/log4js";
 
 export async function saveBlockPointer(blockNumber: number, blockType: string) {
   const blockRecordRepository = await getTRepository(BlockRecordEntity);
@@ -13,6 +14,7 @@ export async function saveBlockPointer(blockNumber: number, blockType: string) {
 }
 
 export async function getLastBlockPointer(blockType: string) {
+  const startTime = new Date().getTime();
   const blockRecordRepository = await getTRepository(BlockRecordEntity);
   const blockNumberRecords = (await blockRecordRepository.find({
     where: {
@@ -20,5 +22,7 @@ export async function getLastBlockPointer(blockType: string) {
     },
     order: { createTime: "DESC" },
   })) as BlockRecordEntity[];
+  const endTime = new Date().getTime();
+  log4js.info(`query block_number used time: ${endTime - startTime}ms`);
   return blockNumberRecords.length === 0 ? 0 : blockNumberRecords[0].blockNumber;
 }

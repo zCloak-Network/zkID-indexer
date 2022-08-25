@@ -108,3 +108,7 @@ mongodb_data
 
 .vscode
 
+
+src/configs/config.dev.json
+
+src/configs/config.prod.json
